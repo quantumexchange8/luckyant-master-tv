@@ -1,9 +1,10 @@
 <script setup>
 import { ref } from 'vue';
+import axios from 'axios';
+import { onMounted } from 'vue';
 
 const date = ref('');
 const time = ref('');
-const svgSrc = ref('/src/assets/svg/all-time.svg');
 
 const updateDateTime = () => {
   var currentDate = new Date();
@@ -27,16 +28,43 @@ const updateDateTime = () => {
   time.value = timeString;
 }
 
-const handleMouseOver = () => {
-  svgSrc.value = '/src/assets/svg/all-time-hover.svg';
-};
 
-const handleMouseOut = () => {
-  svgSrc.value = '/src/assets/svg/all-time.svg';
-};
+// Removed part
+// const handleMouseOver = () => {
+//   svgSrc.value = '/src/assets/svg/all-time-hover.svg';
+// };
 
-setInterval(updateDateTime, 1000);
-updateDateTime(); // Initial update
+// const handleMouseOut = () => {
+//   svgSrc.value = '/src/assets/svg/all-time.svg';
+// };
+
+// setInterval(updateDateTime, 1000);
+// updateDateTime(); // Initial update
+
+
+
+const online = ref(true); // Initially assume online
+
+async function fetchData() {
+    try {
+        const response = await axios.get('https://testmember.luckyantfxasia.com/api/getMaster');
+        const masterData = response.data.metaUser;
+        console.log('Master Data:', masterData);
+
+        // Check the status from the master data and update the online status
+        online.value = masterData && masterData.status === 'online';
+    } catch (error) {
+        console.error('Error fetching live data:', error);
+        // Set online status to false in case of an error
+        online.value = false;
+    }
+}
+
+onMounted(() => {
+    updateDateTime(); // Initial update of date and time
+    fetchData(); // Fetch data when the component is mounted
+    setInterval(updateDateTime, 1000); // Update date and time every second
+});
 
 </script>
 
@@ -72,14 +100,15 @@ updateDateTime(); // Initial update
     <div class="line-center"></div>
     <div class="line-down-up"></div>
     <div class="header-right">
-        <div class="label-shape"></div>
+        <div :class="['status-circle', online ? 'online' : 'offline']"></div>
+        <!-- <div class="label-shape"></div>
         <div id="svg-container">
             <img id="svg-img" 
              :src="svgSrc"
              alt=""
              @mouseover="handleMouseOver"
              @mouseout="handleMouseOut">
-        </div>
+        </div> -->
         <!-- <script>
             const svgImg = document.getElementById('svg-img');
         

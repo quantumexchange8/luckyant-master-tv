@@ -235,6 +235,41 @@ body {
     /* width: 20%; */
 }
 
+/* Status circle online/offline */
+/* First Design */
+/* #networkStatus {
+    display: flex;
+    justify-content: space-between;
+    width: 40px;
+}
+
+.circle {
+width: 20px;
+height: 20px;
+border-radius: 50%;
+}
+
+.online.active {
+background-color: green;
+}
+
+.offline.active {
+background-color: red;
+} */
+
+
+/* Second Design */
+.status-circle {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin: 8px auto;
+}
+.online { background-color: #06F7A1; }
+.offline { background-color: red; }
+
+
+
 .control-icon {
     margin-right: 10px; /* Adjust margin as needed */
     height: 20px;
@@ -527,7 +562,7 @@ body {
     flex-direction: column;
     /* flex-grow: 1; */
     width: 65%;
-    /* height: 140px; */
+    height: 100px;
     font-size: 13px;
     font-weight: 500;
     margin-left: 5px;

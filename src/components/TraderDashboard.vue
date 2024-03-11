@@ -2,75 +2,75 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios'; // Import Axios
 
-function createSmallBarChart(canvasId, data, gradientFunction) {
-    const canvas = document.getElementById(canvasId);
-    if (!canvas) {
-        console.error('Canvas element not found:', canvasId);
-        return;
-    }
+// function createSmallBarChart(canvasId, data, gradientFunction) {
+//     const canvas = document.getElementById(canvasId);
+//     if (!canvas) {
+//         console.error('Canvas element not found:', canvasId);
+//         return;
+//     }
 
-    const ctx = canvas.getContext('2d');
-    if (!ctx) {
-        console.error('Canvas context not available:', canvasId);
-        return;
-    }
+//     const ctx = canvas.getContext('2d');
+//     if (!ctx) {
+//         console.error('Canvas context not available:', canvasId);
+//         return;
+//     }
 
-    const chart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: Array(12).fill('bar'),
-            datasets: [{
-                label: '',
-                data: data,
-                backgroundColor: function(context){
-                    const chartArea = context.chart.chartArea;
-                    if (!chartArea) {
-                        return null;
-                    }
-                    return gradientFunction(ctx, chartArea);
-                },
-                borderWidth: 1
-            }]
-        },
-        options: {
-            maintainAspectRatio: false,
-            plugins: {
-                tooltip: {
-                    enabled: false
-                },
-                legend: {
-                    display: false
-                },
-            },
-            scales: {
-                x: {
-                    display: false
-                },
-                y: {
-                    beginAtZero: true,
-                    display: false
-                }
-            }
-        }
-    });
-}
+//     const chart = new Chart(ctx, {
+//         type: 'bar',
+//         data: {
+//             labels: Array(12).fill('bar'),
+//             datasets: [{
+//                 label: '',
+//                 data: data,
+//                 backgroundColor: function(context){
+//                     const chartArea = context.chart.chartArea;
+//                     if (!chartArea) {
+//                         return null;
+//                     }
+//                     return gradientFunction(ctx, chartArea);
+//                 },
+//                 borderWidth: 1
+//             }]
+//         },
+//         options: {
+//             maintainAspectRatio: false,
+//             plugins: {
+//                 tooltip: {
+//                     enabled: false
+//                 },
+//                 legend: {
+//                     display: false
+//                 },
+//             },
+//             scales: {
+//                 x: {
+//                     display: false
+//                 },
+//                 y: {
+//                     beginAtZero: true,
+//                     display: false
+//                 }
+//             }
+//         }
+//     });
+// }
 
-function getGradient(barCtx, chartArea) {
-    const gradientBg = barCtx.createLinearGradient(chartArea.left, 0, chartArea.right, 0);
-    gradientBg.addColorStop(0, '#38BDF8'); // First color
-    gradientBg.addColorStop(0.5, '#31FBFB'); // Second color with reduced transparency
-    gradientBg.addColorStop(1, 'rgba(49, 251, 251, 0)'); // Transparent color stop
-    return gradientBg;
-}
+// function getGradient(barCtx, chartArea) {
+//     const gradientBg = barCtx.createLinearGradient(chartArea.left, 0, chartArea.right, 0);
+//     gradientBg.addColorStop(0, '#38BDF8'); // First color
+//     gradientBg.addColorStop(0.5, '#31FBFB'); // Second color with reduced transparency
+//     gradientBg.addColorStop(1, 'rgba(49, 251, 251, 0)'); // Transparent color stop
+//     return gradientBg;
+// }
 
-onMounted(async () => {
-    await fetchData();
-    // Iterate over the fetched data to create bar charts for each frame
-    fetchedData.value.forEach((user, index) => {
-        const canvasId = 'barChart' + (index + 1); // Generate unique canvas ID
-        createSmallBarChart(canvasId, Array(12).fill(20), getGradient);
-    });
-});
+// onMounted(async () => {
+//     await fetchData();
+//     // Iterate over the fetched data to create bar charts for each frame
+//     fetchedData.value.forEach((user, index) => {
+//         const canvasId = 'barChart' + (index + 1); // Generate unique canvas ID
+//         createSmallBarChart(canvasId, Array(12).fill(20), getGradient);
+//     });
+// });
 
 // onMounted(() => {
 //     createSmallBarChart('barChart1', Array(12).fill(20), getGradient);
@@ -131,28 +131,44 @@ document.addEventListener("DOMContentLoaded", initializeClickEvent);
 
 
 
+// This is where to get the master data 
+
 // const response = await axios.get('http://192.168.0.223:5000/api/trade_acc/457269');
 // const response = await axios.get('https://luckyant-trading-user.test/api/getMasters');
 
 
-const masterData = ref(null);
+const masterData = ref([]);
 
 async function fetchData() {
     try {
         const response = await axios.get('https://testmember.luckyantfxasia.com/api/getMaster');
         masterData.value = response.data.metaUser;
         console.log('Master Data:', masterData.value);
-
-        createSmallBarChart('barChart1', Array(12).fill(20), getGradient);
     } catch (error) {
         console.error('Error fetching live data:', error);
     }
 }
 
+// async function fetchData() {
+//     try {
+//         const response = await axios.get('https://testmember.luckyantfxasia.com/api/getMaster');
+//         console.log('API Response:', response);
+
+//         if (response && response.data && response.data.metaUser) {
+//             masterData.value = response.data.metaUser;
+//             console.log('Master Data:', masterData.value);
+//         } else {
+//             console.error('Invalid response format:', response);
+//         }
+//     } catch (error) {
+//         console.error('Error fetching live data:', error);
+//     }
+// }
+
 // Call fetchData function to fetch data when the component is mounted
 onMounted(() => {
   fetchData(); // Fetch data when the component is mounted
-  setInterval(fetchData, 1000); // Fetch data every 1 second
+//   setInterval(fetchData, 1000); 
 });
 
 
@@ -210,8 +226,13 @@ onMounted(() => {
                     </div>
                     <div class="bar-chart-data">
                         <div class="bar-chart">
-                            <canvas id="barChart1" style="width: 120px; height: 50px;"></canvas>
+                            <div id="bar-chart-container">
+                                <img id="svg-img" src="/src/assets/svg/barchart.svg" alt="">
+                            </div>
                         </div>
+                        <!-- <div class="bar-chart">
+                            <canvas id="barChart1" style="width: 120px; height: 50px;"></canvas>
+                        </div> -->
                         <div class="bar-chart-profitability">
                             <p>Profitability</p>
                             <p class="font-green-color">96.83%</p>
