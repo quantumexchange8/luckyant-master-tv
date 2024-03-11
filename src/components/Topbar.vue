@@ -5,6 +5,9 @@ import { onMounted } from 'vue';
 
 const date = ref('');
 const time = ref('');
+const online = ref(false); // Initialize online status as false initially
+const statusColor = ref('online'); // Initialize statusColor as 'online'
+
 
 const updateDateTime = () => {
   var currentDate = new Date();
@@ -29,34 +32,46 @@ const updateDateTime = () => {
 }
 
 
-// Removed part
-// const handleMouseOver = () => {
-//   svgSrc.value = '/src/assets/svg/all-time-hover.svg';
-// };
 
-// const handleMouseOut = () => {
-//   svgSrc.value = '/src/assets/svg/all-time.svg';
-// };
+// async function fetchData() {
+//     try {
+//         const response = await axios.get('https://testmember.luckyantfxasia.com/api/getMaster');
+//         const masterData = response.data.status; // Assuming status is directly available in the response data
+//         console.log('Response Data Status:', masterData); // Log the status from the response data
 
-// setInterval(updateDateTime, 1000);
-// updateDateTime(); // Initial update
+//         // Check the status from the master data and update the online status
+//         online.value = masterData === 'online';
+
+//         // Set the statusColor based on the response data status
+//         statusColor.value = masterData === 'success' ? 'online' : 'offline';
+//     } catch (error) {
+//         console.error('Error fetching live data:', error);
+//         // Set online status to false in case of an error
+//         online.value = false;
+//         // Set the statusColor to red in case of an error
+//         statusColor.value = 'offline';
+//     }
+// }
 
 
-
-const online = ref(true); // Initially assume online
 
 async function fetchData() {
     try {
         const response = await axios.get('https://testmember.luckyantfxasia.com/api/getMaster');
-        const masterData = response.data.metaUser;
-        console.log('Master Data:', masterData);
+        const masterData = response.data.status; // Assuming status is directly available in the response data
+        console.log('Response Data Status:', masterData); // Log the status from the response data
 
         // Check the status from the master data and update the online status
-        online.value = masterData && masterData.status === 'online';
+        online.value = masterData === 'success';
+
+        // Set the statusColor based on the response data status
+        statusColor.value = masterData === 'failed' ? 'offline' : 'online';
     } catch (error) {
         console.error('Error fetching live data:', error);
         // Set online status to false in case of an error
         online.value = false;
+        // Set the statusColor to red in case of an error
+        statusColor.value = 'offline';
     }
 }
 
@@ -66,16 +81,9 @@ onMounted(() => {
     setInterval(updateDateTime, 1000); // Update date and time every second
 });
 
-</script>
 
-<!-- <template>
-    <div class="header-left">
-        <div class="date-n-time">
-            <div id="currentDate" class="currentDate">{{ date }}</div>
-            <div id="currentTime" class="currentTime">{{ time }}</div>
-        </div>
-    </div>
-</template> -->
+
+</script>
 
 <template>
     <div id="header" class="header-flex">
@@ -100,7 +108,7 @@ onMounted(() => {
     <div class="line-center"></div>
     <div class="line-down-up"></div>
     <div class="header-right">
-        <div :class="['status-circle', online ? 'online' : 'offline']"></div>
+        <div :class="['status-circle', statusColor]"></div>
         <!-- <div class="label-shape"></div>
         <div id="svg-container">
             <img id="svg-img" 

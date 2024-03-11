@@ -74,6 +74,10 @@
     #box8 {
         height: 30%;
     }
+
+    .status-circle {
+        margin: 15px auto;
+    }
 }
 
 
@@ -258,11 +262,11 @@
     }
 
     .information-part-1 p, .information-part-2 p, .information-part-3 p {
-        margin-bottom: 3px;
+        margin-bottom: 1px;
     }
 
     .information-data-part-1 p, .information-data-part-2 p, .information-data-part-3 p {
-        margin-bottom: 3px;
+        margin-bottom: 1px;
     }
 }
 
