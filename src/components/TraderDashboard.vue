@@ -89,12 +89,99 @@ function handleMasterClick(index) {
                 <h3>Masters</h3>
             </div>
         </div>
-        <!-- <div id="clickable1" v-for="(user, index) in masterData" :key="index" class="trader-dashboard-frame"> -->
-            <div id="clickable1" v-for="(user, index) in masterData" :key="index" class="trader-dashboard-frame" :class="{ 'clicked': user.clicked }" @click="handleMasterClick(index)">
+        <div class="pamm-master-box">
+                <div class="dashboard-name-border">
+                    <div class="dashboard-name">
+                        <h4>Bullion AI-Trading</h4> 
+                    </div>
+                </div>
+            <div class="trader-dashboard-content">
+                <div class="trader-dashboard-img-1">
+                    <div class="shadow-container">
+                        <div class="hexagon-border">
+                            <img src="/src/assets/dashboard/dashboard-1-s.jpg" alt="">
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="content-up-down">
+                    <div class="add-onbox">
+                        <div class="trader-dashboard-content-right">
+                            <div class="trader-dashboard-content-right-name">
+                                <p>Profit</p>
+                                <p>Max Drawdown</p>
+                            </div>
+                        </div>
+                        <div class="trader-dashboard-content-right-data">
+                            <p>$ 124,823.68 </p>
+                            <p>7.13%</p>
+
+                        </div>
+                    </div>
+                    <div class="bar-chart-data">
+                        <div class="bar-chart">
+                            <div id="bar-chart-container">
+                                <img id="svg-img" src="/src/assets/svg/barchart.svg" alt="">
+                            </div>
+                        </div>
+                        <div class="bar-chart-profitability">
+                            <p>Gain</p>
+                            <p class="font-green-color">941.83%</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <br>
             <div class="pamm-master-box">
                 <div class="dashboard-name-border">
                     <div class="dashboard-name">
-                        <h4>{{ user.meta_user.name }}</h4> <!-- Display username or show error message -->
+                        <h4>Titan X Robot</h4> 
+                    </div>
+                </div>
+            <div class="trader-dashboard-content">
+                <div class="trader-dashboard-img-1">
+                    <div class="shadow-container">
+                        <div class="hexagon-border">
+                            <img src="/src/assets/dashboard/dashboard-1-s.jpg" alt="">
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="content-up-down">
+                    <div class="add-onbox">
+                        <div class="trader-dashboard-content-right">
+                            <div class="trader-dashboard-content-right-name">
+                                <p>Profit</p>
+                                <p>Max Drawdown</p>
+                            </div>
+                        </div>
+                        <div class="trader-dashboard-content-right-data">
+                            <p>$ 22,794.95 </p>
+                            <p>4.37%</p>
+
+                        </div>
+                    </div>
+                    <div class="bar-chart-data">
+                        <div class="bar-chart">
+                            <div id="bar-chart-container">
+                                <img id="svg-img" src="/src/assets/svg/barchart.svg" alt="">
+                            </div>
+                        </div>
+                        <div class="bar-chart-profitability">
+                            <p>Gain</p>
+                            <p class="font-green-color">54.10%</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        <!-- <div id="clickable1" v-for="(user, index) in masterData" :key="index" class="trader-dashboard-frame"> -->
+            <!-- <div id="clickable1" v-for="(user, index) in masterData" :key="index" class="trader-dashboard-frame" :class="{ 'clicked': user.clicked }" @click="handleMasterClick(index)">
+            <div class="pamm-master-box">
+                <div class="dashboard-name-border">
+                    <div class="dashboard-name">
+                        <h4>{{ user.meta_user.name }}</h4> 
                     </div>
                 </div>
             <div class="trader-dashboard-content">
@@ -112,13 +199,12 @@ function handleMasterClick(index) {
                             <div class="trader-dashboard-content-right-name">
                                 <p>Balance</p>
                                 <p>Investors</p>
-<!--                                <p>Total Growth</p>-->
                             </div>
                         </div>
                         <div class="trader-dashboard-content-right-data">
                             <p>$ {{ user.meta_user.balance }} </p>
                             <p>{{ user.subscriber }}</p>
-<!--                            <p class="total-growth">+2,383.39%</p>-->
+
                         </div>
                     </div>
                     <div class="bar-chart-data">
@@ -135,6 +221,6 @@ function handleMasterClick(index) {
                 </div>
             </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>

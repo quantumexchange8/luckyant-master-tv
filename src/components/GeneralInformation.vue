@@ -102,11 +102,11 @@ const daysSinceFirstTrade = (dateString) => {
                         <p>$ {{ metaInformation.withdrawals }}</p>
                     </div>
                     <div class="information-data-part-2">
-                        <p class="font-green-color">+2,383.39%</p>
-                        <p class="font-green-color">+637.37%</p>
-                        <p class="font-green-color">+362.27%</p>
-                        <p>8.28%</p>
-                        <p>20.37%</p>
+                        <p class="font-green-color">+941.83%</p>
+                        <p class="font-green-color">+10.36%</p>
+                        <p class="font-green-color">+0.75%</p>
+                        <p>0.07%</p>
+                        <p>7.13%</p>
                     </div>
                     <div class="information-data-part-3">
 <!--                        <p>100</p>-->

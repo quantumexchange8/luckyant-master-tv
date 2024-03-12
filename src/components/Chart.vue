@@ -49,7 +49,7 @@ function createChartConfig(ctx, data, fontSize, dateStrings) {
                       color: '#94A3B8',
                   },
                   min: 0, // Set the minimum value of the y-axis
-                  max: 500, // Set the maximum value of the y-axis
+                  max: 1000, // Set the maximum value of the y-axis
                   ticks: {
                       callback: function (value, index, values) {
                           return value + '%'; // Add '%' to the tick labels
@@ -83,16 +83,16 @@ onMounted(() => {
   const chartContext = document.getElementById('lineChart');
 
   const dateStrings = [
-    '2024-01-01', '2024-01-08', '2024-01-15', '2024-01-22', '2024-01-29',
-    '2024-02-05', '2024-02-12', '2024-02-19', '2024-02-26',
-    '2024-03-04', '2024-03-11', '2024-03-18', '2024-03-25',
+    '2022-02-18', '2022-05-12', '2022-08-03', '2022-11-22', '2023-04-04',
+    '2023-06-27', '2023-07-27', '2023-12-04', '2024-02-02',
+    '2024-03-11', 
   ];
 
   const lineChartData = {
     labels: dateStrings,
     datasets: [{
         label: 'Line Chart Data',
-        data: [0, 120, 200, 250, 320, 420, 400, 380, 350, 420, 320, 400, 480],
+        data: [0, 34.13, 89.86, 181.29, 317.02, 404.97, 470.88, 670.99, 753.28, 934.06],
         borderWidth: 2,
         fill: true,
         pointRadius: 0

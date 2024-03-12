@@ -42,7 +42,7 @@ const loginStatus = ref(''); // Initialize loginStatus as an empty string
 
 async function fetchData(metaLoginValue) {
     try {
-        const response = await axios.get(`https://testmember.luckyantfxasia.com/api/getMasterLiveTrades?meta_login=${metaLoginValue}`);
+        const response = await axios.get(`https://member.luckyantfxasia.com/api/getMasterLiveTrades?meta_login=${metaLoginValue}`);
         
         tradeHistories.value = response.data; // Set the metaLogin value upon successful login
         // console.log(tradeHistories.value);
@@ -53,7 +53,7 @@ async function fetchData(metaLoginValue) {
 }
 
 // Fetch data with the provided meta_login value
-fetchData('457282');
+fetchData('457285');
 
 // Calculate duration of close - open date and time 
 // Function to calculate duration in seconds
@@ -69,7 +69,7 @@ const calculateDuration = (openTime, closeTime) => {
 
 // Set interval to update data every second
 setInterval(() => {
-    fetchData('457282');
+    fetchData('457285');
 }, 1000);
 
 </script>
