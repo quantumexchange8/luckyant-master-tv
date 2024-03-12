@@ -34,24 +34,12 @@ function createPieChart() {
         datasets: [{
           label: 'value',
           data: [
-              { label: 'XAUUSD', value: 30 },
-              { label: 'XAGUSD', value: 20 },
-              { label: 'GBPUSD', value: 20 },
-              { label: 'BTCUSD', value: 20 },
-              { label: 'USDCAD', value: 10 }
+              { label: 'XAUUSD', value: 100 }
           ],
           backgroundColor:[
-                '#4DD1FF',
-                '#31FBFB',
-                '#065DFF',
-                '#003EB3',
-                '#3C23BC' 
+                '#4DD1FF'
           ],
           borderColor: [
-                '#000000',
-                '#000000',
-                '#000000',
-                '#000000',
                 '#000000'
             ],
           borderWidth: 2
