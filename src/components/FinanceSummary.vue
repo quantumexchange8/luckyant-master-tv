@@ -31,10 +31,10 @@ function createRadarChart() {
   const radarChart = new Chart(radarCtx, {
     type: 'radar',
     data: {
-        labels: ["Balance: $1,000,000", "Equity: $1373383.28", "Withdrawal: $584485.28", "Deposit: $738383.43", "Profit: $1382383.43"],
+        labels: ["Balance: $55,512.16", "Equity: $55,463.66", "Withdrawal: $119,586.00", "Deposit: $50,000.00", "Profit: $125,098.66"],
         datasets: [{
             label: 'Amounts',
-            data: [75, 95, 95, 65, 80],
+            data: [65, 60, 95, 65, 98],
             borderWidth: 1,
             pointStyle: 'circle', // Set point style to circle
             pointRadius: 3 // Set point radius
