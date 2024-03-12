@@ -31,30 +31,6 @@ const updateDateTime = () => {
   time.value = timeString;
 }
 
-
-
-// async function fetchData() {
-//     try {
-//         const response = await axios.get('https://testmember.luckyantfxasia.com/api/getMaster');
-//         const masterData = response.data.status; // Assuming status is directly available in the response data
-//         console.log('Response Data Status:', masterData); // Log the status from the response data
-
-//         // Check the status from the master data and update the online status
-//         online.value = masterData === 'online';
-
-//         // Set the statusColor based on the response data status
-//         statusColor.value = masterData === 'success' ? 'online' : 'offline';
-//     } catch (error) {
-//         console.error('Error fetching live data:', error);
-//         // Set online status to false in case of an error
-//         online.value = false;
-//         // Set the statusColor to red in case of an error
-//         statusColor.value = 'offline';
-//     }
-// }
-
-
-
 async function fetchData() {
     try {
         const response = await axios.get('https://testmember.luckyantfxasia.com/api/getMaster');
@@ -109,28 +85,6 @@ onMounted(() => {
     <div class="line-down-up"></div>
     <div class="header-right">
         <div :class="['status-circle', statusColor]"></div>
-        <!-- <div class="label-shape"></div>
-        <div id="svg-container">
-            <img id="svg-img" 
-             :src="svgSrc"
-             alt=""
-             @mouseover="handleMouseOver"
-             @mouseout="handleMouseOut">
-        </div> -->
-        <!-- <script>
-            const svgImg = document.getElementById('svg-img');
-        
-            // Add event listeners for mouseover and mouseout
-            svgImg.addEventListener('mouseover', function() {
-                // Change src to an SVG with hover effect
-                svgImg.src = 'assets/svg/all-time-hover.svg'; // Change to your hover SVG file path
-            });
-
-            svgImg.addEventListener('mouseout', function() {
-                // Restore original src
-                svgImg.src = 'assets/svg/all-time.svg'; // Change to your original SVG file path
-            });
-        </script> -->
     </div>
     <div class="line-right"></div>
     <div class="parallelogram-shape">

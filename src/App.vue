@@ -12,24 +12,7 @@ import TradesStatistics from './components/TradesStatistics.vue';
 import './css/main.css'
 import './css/responsive.css'
 
-// import './src/main.css'
-// import './src/responsive.css';
-
-import { onMounted } from 'vue';
-
 </script>
-
-
-<!-- <template>
-    <Header />
-    <div class="content">
-        <div class="content-left">
-            Masters
-            MasterCharts
-        </div>
-    </div>
-    <Masters />
-</template> -->
 
 <template>
     <div class="box-wrapper" id="content">
@@ -62,4 +45,4 @@ import { onMounted } from 'vue';
           </div>
         </div>
     </div>
-</template>./components/Topbar.vue
+</template>

@@ -1,6 +1,7 @@
 <script setup>
 
-import { onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 
 function applyColorToProfitAndGain() {
     const TDsProfit = document.querySelectorAll('td:nth-child(9)'); // Select the 9th column (Profit)
@@ -32,6 +33,44 @@ function applyColorToProfitAndGain() {
 onMounted(() => {
     applyColorToProfitAndGain();
 });
+
+
+
+// To instant update the active master 
+const tradeHistories = ref(''); // Initialize metaLogin as an empty string
+const loginStatus = ref(''); // Initialize loginStatus as an empty string
+
+async function fetchData(metaLoginValue) {
+    try {
+        const response = await axios.get(`https://testmember.luckyantfxasia.com/api/getMasterLiveTrades?meta_login=${metaLoginValue}`);
+        
+        tradeHistories.value = response.data; // Set the metaLogin value upon successful login
+        console.log(tradeHistories.value);
+    } catch (error) {
+        console.error('Error fetching trade history data:', error);
+        console.log('Login Status: Failed');
+    }
+}
+
+// Fetch data with the provided meta_login value
+fetchData('457282');
+
+// Calculate duration of close - open date and time 
+// Function to calculate duration in seconds
+const calculateDuration = (openTime, closeTime) => {
+    const openDate = new Date(openTime);
+    const closeDate = new Date(closeTime);
+
+    const durationMilliseconds = closeDate - openDate;
+    const durationSeconds = Math.floor(durationMilliseconds / 1000);
+
+    return durationSeconds;
+};
+
+// Set interval to update data every second
+setInterval(() => {
+    fetchData('457282');
+}, 1000);
 
 </script>
 
@@ -75,230 +114,334 @@ onMounted(() => {
                         <th scope="col" class="px-6 py-3">
                             Close Price
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <!-- <th scope="col" class="px-6 py-3">
                             Pips
-                        </th>
+                        </th> -->
                         <th scope="col" class="px-6 py-3">
                             Profit (USD)
                         </th>
                         <th scope="col" class="px-6 py-3">
                             Duration
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <!-- <th scope="col" class="px-6 py-3">
                             Gain
-                        </th>
+                        </th> -->
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="table-content-bckg">
+                    <!-- <tr v-for="tradeHistory in tradeHistories" :key="tradeHistory.id" class="table-content-bckg"> -->
+                        <tr v-for="(tradeHistory, index) in tradeHistories" :key="tradeHistory.id" :class="{ 'table-content-bckg': index % 2 === 0, 'table-content': index % 2 !== 0 }">
                         <td class="px-6 py-4">
                             <div class="table-content-date-time">
-                                <div class="table-content-date">01.01.2024</div>
-                                <div class="table-content-time">11:37:48</div>
+                                <div class="table-content-date">
+                                    <!-- 01.01.2024 -->
+                                    <!-- {{ tradeHistory.time_open }} -->
+                                    {{ tradeHistory.time_open.split(' ')[0] }}
+                                </div>
+                                <div class="table-content-time">
+                                    <!-- 11:37:48 -->
+                                    {{ tradeHistory.time_open.split(' ')[1] }}
+                                </div>
                             </div>
                         </td>
                         <td class="px-6 py-4">
                             <div class="table-content-date-time">
-                                <div class="table-content-date">01.01.2024</div>
-                                <div class="table-content-time">11:37:53</div>
+                                <div class="table-content-date">
+                                    <!-- {{ tradeHistory.time_close }} -->
+                                    {{ tradeHistory.time_close.split(' ')[0] }}
+
+                                </div>
+                                <div class="table-content-time">
+                                    <!-- 11:37:53 -->
+                                    {{ tradeHistory.time_close.split(' ')[1] }}
+                                </div>
                             </div>
                         </td>
                         <td class="px-6 py-4">
-                            GBPUSD
+                            <!-- GBPUSD -->
+                            {{ tradeHistory.symbol }}
                         </td>
                         <td class="px-6 py-4">
-                            Sell
+                            <!-- Sell -->
+                            {{ tradeHistory.trade_type }}
                         </td>
                         <td class="px-6 py-4">
-                            500.00
+                            <!-- 500.00 -->
+                            {{ tradeHistory.volume }}
                         </td>
                         <td class="px-6 py-4">
-                            1.29506
+                            <!-- 1.29506 -->
+                            {{ tradeHistory.price_open }}
                         </td>
                         <td class="px-6 py-4">
-                            1.29556
+                            <!-- 1.29556 -->
+                            {{ tradeHistory.price_close }}
+                        </td>
+                        <!-- <td class="px-6 py-4">
+                        </td> -->
+                        <td class="px-6 py-4">
+                            <!-- -25,000.00 -->
+                            <!-- {{ tradeHistory.closed_profit }} -->
+                            <span :style="{ color: tradeHistory.closed_profit > 0 ? 'green' : (tradeHistory.closed_profit < 0 ? 'red' : 'inherit') }">
+                                {{ tradeHistory.closed_profit }}
+                            </span>
                         </td>
                         <td class="px-6 py-4">
-                            -5.0
+                            <!-- 5s -->
+                            {{ calculateDuration(tradeHistory.time_open, tradeHistory.time_close) }}s
                         </td>
-                        <td class="px-6 py-4">
-                            -25,000.00
-                        </td>
-                        <td class="px-6 py-4">
-                            5s
-                        </td>
-                        <td class="px-6 py-4">
-                            -0.53%
-                        </td>
+                        <!-- <td class="px-6 py-4">
+                        </td> -->
                     </tr>
-                    <tr class="table-content">
+                    <!-- <tr class="table-content">
                         <td class="px-6 py-4">
                             <div class="table-content-date-time">
-                                <div class="table-content-date">01.01.2024</div>
-                                <div class="table-content-time">10:59:16</div>
+                                <div class="table-content-date">
+                                    01.01.2024
+                                    {{ loginStatus }}
+                                </div>
+                                <div class="table-content-time">
+                                    10:59:16
+                                    {{ loginStatus }}
+                                </div>
                             </div>
                         </td>
                         <td class="px-6 py-4">
                             <div class="table-content-date-time">
-                                <div class="table-content-date">01.01.2024</div>
-                                <div class="table-content-time">10:58:54</div>
+                                <div class="table-content-date">
+                                    01.01.2024
+                                    {{ loginStatus }}
+                                </div>
+                                <div class="table-content-time">
+                                    10:58:54
+                                    {{ loginStatus }}
+                                </div>
                             </div>
                         </td>
                         <td class="px-6 py-4">
                             GBPUSD
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             Sell
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             500.00
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             1.29506
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             1.29556
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             -5.0
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             14,372.32
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             38s
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             13.23%
+                            {{ loginStatus }}
                         </td>
                     </tr>
                     <tr class="table-content-bckg">
                         <td class="px-6 py-4">
                             <div class="table-content-date-time">
-                                <div class="table-content-date">01.01.2024</div>
-                                <div class="table-content-time">10:50:12</div>
+                                <div class="table-content-date">
+                                    01.01.2024
+                                    {{ loginStatus }}
+                                </div>
+                                <div class="table-content-time">
+                                    10:50:12
+                                    {{ loginStatus }}
+                                </div>
                             </div>
                         </td>
                         <td class="px-6 py-4">
                             <div class="table-content-date-time">
-                                <div class="table-content-date">01.01.2024</div>
-                                <div class="table-content-time">10:52:00</div>
+                                <div class="table-content-date">
+                                    01.01.2024
+                                    {{ loginStatus }}
+                                </div>
+                                <div class="table-content-time">
+                                    10:52:00
+                                    {{ loginStatus }}
+                                </div>
                             </div>
                         </td>
                         <td class="px-6 py-4">
                             GBPUSD
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             Sell
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             500.00
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             1.29506
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             1.29556
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             -5.0
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             75,373.83
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             108s
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             67.27%
+                            {{ loginStatus }}
                         </td>
                     </tr>
                     <tr class="table-content">
                         <td class="px-6 py-4">
                             <div class="table-content-date-time">
-                                <div class="table-content-date">01.01.2024</div>
-                                <div class="table-content-time">10:38:03</div>
+                                <div class="table-content-date">
+                                    01.01.2024
+                                    {{ loginStatus }}
+                                </div>
+                                <div class="table-content-time">
+                                    10:38:03
+                                    {{ loginStatus }}
+                                </div>
                             </div>
                         </td>
                         <td class="px-6 py-4">
                             <div class="table-content-date-time">
-                                <div class="table-content-date">01.01.2024</div>
-                                <div class="table-content-time">10:38:56</div>
+                                <div class="table-content-date">
+                                    01.01.2024
+                                    {{ loginStatus }}
+                                </div>
+                                <div class="table-content-time">
+                                    10:38:56
+                                    {{ loginStatus }}
+                                </div>
                             </div>
                         </td>
                         <td class="px-6 py-4">
                             GBPUSD
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             Sell
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             500.00
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             1.29506
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             1.29556
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             -5.0
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             -2,378.99
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             53s
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             -12.36%
+                            {{ loginStatus }}
                         </td>
                     </tr>
                     <tr class="table-content-bckg">
                         <td class="px-6 py-4">
                             <div class="table-content-date-time">
-                                <div class="table-content-date">01.01.2024</div>
-                                <div class="table-content-time">10:00:38</div>
+                                <div class="table-content-date">
+                                    01.01.2024
+                                    {{ loginStatus }}
+                                </div>
+                                <div class="table-content-time">
+                                    10:00:38
+                                    {{ loginStatus }}
+                                </div>
                             </div>
                         </td>
                         <td class="px-6 py-4">
                             <div class="table-content-date-time">
-                                <div class="table-content-date">01.01.2024</div>
-                                <div class="table-content-time">10:00:52</div>
+                                <div class="table-content-date">
+                                    01.01.2024
+                                    {{ loginStatus }}
+                                </div>
+                                <div class="table-content-time">
+                                    10:00:52
+                                    {{ loginStatus }}
+                                </div>
                             </div>
                         </td>
                         <td class="px-6 py-4">
                             GBPUSD
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             Sell
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             500.00
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             1.29506
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             1.29556
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             -5.0
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             93,383.37
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             14s
+                            {{ loginStatus }}
                         </td>
                         <td class="px-6 py-4">
                             26.91%
+                            {{ loginStatus }}
                         </td>
-                    </tr>
+                    </tr> -->
                 </tbody>
-                <!-- <script>
-                    ApplyColorToProfitAndGain();
-                </script> -->
             </table>
         </div>
 </div>
