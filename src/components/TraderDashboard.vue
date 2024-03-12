@@ -51,7 +51,7 @@ const masterData = ref([]);
 
 async function fetchData() {
     try {
-        const response = await axios.get('https://testmember.luckyantfxasia.com/api/getMaster');
+        const response = await axios.get('https://member.luckyantfxasia.com/api/getMaster');
         masterData.value = response.data.metaUser;
         console.log('Master Data:', masterData.value);
     } catch (error) {
@@ -112,13 +112,13 @@ function handleMasterClick(index) {
                             <div class="trader-dashboard-content-right-name">
                                 <p>Balance</p>
                                 <p>Investors</p>
-                                <p>Total Growth</p>
+<!--                                <p>Total Growth</p>-->
                             </div>
                         </div>
                         <div class="trader-dashboard-content-right-data">
                             <p>$ {{ user.meta_user.balance }} </p>
                             <p>{{ user.subscriber }}</p>
-                            <p class="total-growth">+2,383.39%</p>
+<!--                            <p class="total-growth">+2,383.39%</p>-->
                         </div>
                     </div>
                     <div class="bar-chart-data">

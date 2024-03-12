@@ -45,7 +45,7 @@ async function fetchData(metaLoginValue) {
         const response = await axios.get(`https://testmember.luckyantfxasia.com/api/getMasterLiveTrades?meta_login=${metaLoginValue}`);
         
         tradeHistories.value = response.data; // Set the metaLogin value upon successful login
-        console.log(tradeHistories.value);
+        // console.log(tradeHistories.value);
     } catch (error) {
         console.error('Error fetching trade history data:', error);
         console.log('Login Status: Failed');

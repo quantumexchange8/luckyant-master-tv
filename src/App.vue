@@ -16,33 +16,33 @@ import './css/responsive.css'
 
 <template>
     <div class="box-wrapper" id="content">
-      <Topbar />
+        <Topbar/>
         <div id="box2" class="content">
-          <div id="box3" class="content-left">
-            <TraderDashboard />
-            <div id="box5" class="content-left-right">
-              <GeneralInformation />
-              <TradesStatistics />
-            </div>
-          </div>
-          <div id="box6" class="content-right">
-            <div id="box13">
-              <div id="box7">
-                <div id="box9-1">
-                  <Chart />
-                  <div id="box9-2">
-                    <FinanceSummary />
-                    <AssetAllocation />
-                  </div>
+            <div id="box3" class="content-left">
+                <TraderDashboard/>
+                <div id="box5" class="content-left-right">
+                    <GeneralInformation/>
+                    <TradesStatistics/>
                 </div>
-                <div id="box10">
-                  <ForexMarket />
-                  <DailyPeriods />
-                </div>
-              </div>
-              <TradesHistory />
             </div>
-          </div>
+            <div id="box6" class="content-right">
+                <div id="box13">
+                    <div id="box7">
+                        <div id="box9-1">
+                            <Chart/>
+                            <div id="box9-2">
+                                <FinanceSummary/>
+                                <AssetAllocation/>
+                            </div>
+                        </div>
+                        <div id="box10">
+                            <ForexMarket/>
+                            <DailyPeriods/>
+                        </div>
+                    </div>
+                    <TradesHistory/>
+                </div>
+            </div>
         </div>
     </div>
 </template>
