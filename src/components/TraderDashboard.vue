@@ -2,7 +2,6 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios'; // Import Axios
 
-
 // Function to apply color to total growth
 function applyColorToTotalGrowth() {
     const TDs = document.querySelectorAll('.trader-dashboard-content-right-data > p:nth-child(3)'); 
@@ -99,7 +98,7 @@ function handleMasterClick(index) {
                 <div class="trader-dashboard-img-1">
                     <div class="shadow-container">
                         <div class="hexagon-border">
-                            <img src="/src/assets/dashboard/dashboard-1-s.jpg" alt="">
+                            <img src="/src/assets/dashboard/icon-trans.png" alt="">
                         </div>
                     </div>
                     
@@ -143,7 +142,7 @@ function handleMasterClick(index) {
                 <div class="trader-dashboard-img-1">
                     <div class="shadow-container">
                         <div class="hexagon-border">
-                            <img src="/src/assets/dashboard/dashboard-1-s.jpg" alt="">
+                            <img src="/src/assets/dashboard/icon-trans.png" alt="">
                         </div>
                     </div>
                     
@@ -188,7 +187,7 @@ function handleMasterClick(index) {
                 <div class="trader-dashboard-img-1">
                     <div class="shadow-container">
                         <div class="hexagon-border">
-                            <img src="/src/assets/dashboard/dashboard-1-s.jpg" alt="">
+                            <img src="/src/assets/dashboard/icon-trans.png" alt="">
                         </div>
                     </div>
                     
