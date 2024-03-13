@@ -42,10 +42,10 @@ const loginStatus = ref(''); // Initialize loginStatus as an empty string
 
 async function fetchData(metaLoginValue) {
     try {
-        const response = await axios.get(`https://member.luckyantfxasia.com/api/getMasterLiveTrades?meta_login=${metaLoginValue}`);
+        const response = await axios.get(`https://www.myfxbook.com/api/get-history.json?session=4gcHQQj80BSwyYjywWCy3636342&id=${metaLoginValue}`);
         
         tradeHistories.value = response.data; // Set the metaLogin value upon successful login
-        // console.log(tradeHistories.value);
+        // console.log('tradeHistories', tradeHistories.value);
     } catch (error) {
         console.error('Error fetching trade history data:', error);
         console.log('Login Status: Failed');
@@ -53,7 +53,7 @@ async function fetchData(metaLoginValue) {
 }
 
 // Fetch data with the provided meta_login value
-fetchData('457285');
+fetchData('10773318');
 
 // Calculate duration of close - open date and time 
 // Function to calculate duration in seconds
@@ -69,7 +69,7 @@ const calculateDuration = (openTime, closeTime) => {
 
 // Set interval to update data every second
 setInterval(() => {
-    fetchData('457285');
+    fetchData('10773318');
 }, 1000);
 
 </script>
@@ -114,9 +114,9 @@ setInterval(() => {
                         <th scope="col" class="px-6 py-3">
                             Close Price
                         </th>
-                        <!-- <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="px-6 py-3">
                             Pips
-                        </th> -->
+                        </th>
                         <th scope="col" class="px-6 py-3">
                             Profit (USD)
                         </th>
@@ -128,32 +128,32 @@ setInterval(() => {
                         </th> -->
                     </tr>
                 </thead>
-                <tbody>
+                <tbody v-if="tradeHistories.history && tradeHistories.history.length > 0">
                     <!-- <tr v-for="tradeHistory in tradeHistories" :key="tradeHistory.id" class="table-content-bckg"> -->
-                        <tr v-for="(tradeHistory, index) in tradeHistories" :key="tradeHistory.id" :class="{ 'table-content-bckg': index % 2 === 0, 'table-content': index % 2 !== 0 }">
+                        <tr v-for="(tradeHistory, index) in tradeHistories.history.slice(0, 5)" :key="index" :class="{ 'table-content-bckg': index % 2 === 0, 'table-content': index % 2 !== 0 }">
                         <td class="px-6 py-4">
                             <div class="table-content-date-time">
                                 <div class="table-content-date">
                                     <!-- 01.01.2024 -->
-                                    <!-- {{ tradeHistory.time_open }} -->
-                                    {{ tradeHistory.time_open.split(' ')[0] }}
+                                    <!-- {{ tradeHistory.openTime }} -->
+                                    {{ tradeHistory.openTime.split(' ')[0] }}
                                 </div>
                                 <div class="table-content-time">
                                     <!-- 11:37:48 -->
-                                    {{ tradeHistory.time_open.split(' ')[1] }}
+                                    {{ tradeHistory.openTime.split(' ')[1] }}
                                 </div>
                             </div>
                         </td>
                         <td class="px-6 py-4">
                             <div class="table-content-date-time">
                                 <div class="table-content-date">
-                                    <!-- {{ tradeHistory.time_close }} -->
-                                    {{ tradeHistory.time_close.split(' ')[0] }}
+                                    <!-- {{ tradeHistory.closeTime }} -->
+                                    {{ tradeHistory.closeTime.split(' ')[0] }}
 
                                 </div>
                                 <div class="table-content-time">
                                     <!-- 11:37:53 -->
-                                    {{ tradeHistory.time_close.split(' ')[1] }}
+                                    {{ tradeHistory.closeTime.split(' ')[1] }}
                                 </div>
                             </div>
                         </td>
@@ -163,32 +163,35 @@ setInterval(() => {
                         </td>
                         <td class="px-6 py-4">
                             <!-- Sell -->
-                            {{ tradeHistory.trade_type }}
+                            {{ tradeHistory.action }}
                         </td>
                         <td class="px-6 py-4">
                             <!-- 500.00 -->
-                            {{ tradeHistory.volume }}
+                            {{ tradeHistory.sizing.value }}
                         </td>
                         <td class="px-6 py-4">
                             <!-- 1.29506 -->
-                            {{ tradeHistory.price_open }}
+                            {{ tradeHistory.openPrice }}
                         </td>
                         <td class="px-6 py-4">
                             <!-- 1.29556 -->
-                            {{ tradeHistory.price_close }}
+                            {{ tradeHistory.closePrice }}
                         </td>
-                        <!-- <td class="px-6 py-4">
-                        </td> -->
+                        <td class="px-6 py-4">
+                            <span :style="{ color: tradeHistory.pips > 0 ? 'green' : (tradeHistory.pips < 0 ? 'red' : 'inherit') }">
+                                {{ tradeHistory.pips }}
+                            </span>
+                        </td>
                         <td class="px-6 py-4">
                             <!-- -25,000.00 -->
-                            <!-- {{ tradeHistory.closed_profit }} -->
-                            <span :style="{ color: tradeHistory.closed_profit > 0 ? 'green' : (tradeHistory.closed_profit < 0 ? 'red' : 'inherit') }">
-                                {{ tradeHistory.closed_profit }}
+                            <!-- {{ tradeHistory.profit }} -->
+                            <span :style="{ color: tradeHistory.profit > 0 ? 'green' : (tradeHistory.profit < 0 ? 'red' : 'inherit') }">
+                                {{ tradeHistory.profit }}
                             </span>
                         </td>
                         <td class="px-6 py-4">
                             <!-- 5s -->
-                            {{ calculateDuration(tradeHistory.time_open, tradeHistory.time_close) }}s
+                            {{ calculateDuration(tradeHistory.openTime, tradeHistory.closeTime) }}s
                         </td>
                         <!-- <td class="px-6 py-4">
                         </td> -->

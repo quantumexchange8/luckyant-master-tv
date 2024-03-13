@@ -24,7 +24,7 @@ const fetchData = async () => {
         console.log(session.value)
         const response = await axios.get(`https://www.myfxbook.com/api/get-my-accounts.json?session=4gcHQQj80BSwyYjywWCy3636342`);
         metaInformation.value = response.data.accounts[0];
-        console.log(metaInformation.value)
+        // console.log(metaInformation.value)
     } catch (error) {
         console.error('Error fetching live data:', error);
     }
@@ -42,7 +42,7 @@ const metaInformationDate = (date) => {
 
 const daysSinceFirstTrade = (dateString) => {
     const date = new Date(dateString); // Parse dateString into a Date object
-    console.log(date);
+    // console.log(date);
     const now = new Date(); // Assuming you want to get the current date
     const differenceInTime = now.getTime() - date.getTime();
     return Math.floor(differenceInTime / (1000 * 3600 * 24));
