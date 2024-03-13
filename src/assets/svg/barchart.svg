@@ -1,25 +1,25 @@
-<svg width="106" height="36" viewBox="0 0 106 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-<mask id="mask0_730_168" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="106" height="36">
-<rect width="3.85714" height="36" fill="white"/>
-<rect x="7.85742" width="3.85714" height="36" fill="white"/>
-<rect x="15.7139" width="3.85714" height="36" fill="white"/>
-<rect x="23.5713" width="3.85714" height="36" fill="white"/>
-<rect x="31.4287" width="3.85714" height="36" fill="white"/>
-<rect x="39.2861" width="3.85714" height="36" fill="white"/>
-<rect x="47.1426" width="3.85714" height="36" fill="white"/>
-<rect x="55" width="3.85714" height="36" fill="white"/>
-<rect x="62.8574" width="3.85714" height="36" fill="white"/>
-<rect x="70.7139" width="3.85714" height="36" fill="white"/>
-<rect x="78.5713" width="3.85714" height="36" fill="white"/>
-<rect x="86.4287" width="3.85714" height="36" fill="white"/>
-<rect x="94.2861" width="3.85714" height="36" fill="white"/>
-<rect x="102.143" width="3.85714" height="36" fill="white"/>
+<svg width="150" height="36" viewBox="0 0 150 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_730_168" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="150" height="36">
+<rect width="5.35714" height="36" fill="white"/>
+<rect x="10.3574" width="5.35714" height="36" fill="white"/>
+<rect x="20.7139" width="5.35714" height="36" fill="white"/>
+<rect x="31.0713" width="5.35714" height="36" fill="white"/>
+<rect x="41.4287" width="5.35714" height="36" fill="white"/>
+<rect x="51.7861" width="5.35714" height="36" fill="white"/>
+<rect x="62.1426" width="5.35714" height="36" fill="white"/>
+<rect x="72.5" width="5.35714" height="36" fill="white"/>
+<rect x="82.8574" width="5.35714" height="36" fill="white"/>
+<rect x="93.2139" width="5.35714" height="36" fill="white"/>
+<rect x="103.571" width="5.35714" height="36" fill="white"/>
+<rect x="113.929" width="5.35714" height="36" fill="white"/>
+<rect x="124.286" width="5.35714" height="36" fill="white"/>
+<rect x="134.643" width="5.35714" height="36" fill="white"/>
 </mask>
 <g mask="url(#mask0_730_168)">
-<rect width="106" height="36" fill="url(#paint0_linear_730_168)"/>
+<rect width="150" height="36" fill="url(#paint0_linear_730_168)"/>
 </g>
 <defs>
-<linearGradient id="paint0_linear_730_168" x1="5.71662e-07" y1="18.6207" x2="106" y2="18.6207" gradientUnits="userSpaceOnUse">
+<linearGradient id="paint0_linear_730_168" x1="5.71662e-07" y1="18.6207" x2="150" y2="18.6207" gradientUnits="userSpaceOnUse">
 <stop stop-color="#0EA6E9"/>
 <stop offset="0.555" stop-color="#00DDE1"/>
 <stop offset="1" stop-color="#00DDE1" stop-opacity="0"/>

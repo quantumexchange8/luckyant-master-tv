@@ -88,6 +88,7 @@ function handleMasterClick(index) {
                 <h3>Masters</h3>
             </div>
         </div>
+        <div class="trader-dashboard-frame">
         <div class="pamm-master-box">
                 <div class="dashboard-name-border">
                     <div class="dashboard-name">
@@ -131,7 +132,9 @@ function handleMasterClick(index) {
                 </div>
             </div>
             </div>
+        </div>
             <br>
+            <div class="trader-dashboard-frame">
             <div class="pamm-master-box">
                 <div class="dashboard-name-border">
                     <div class="dashboard-name">
@@ -175,6 +178,7 @@ function handleMasterClick(index) {
                 </div>
             </div>
             </div>
+        </div>
         <!-- <div id="clickable1" v-for="(user, index) in masterData" :key="index" class="trader-dashboard-frame"> -->
             <!-- <div id="clickable1" v-for="(user, index) in masterData" :key="index" class="trader-dashboard-frame" :class="{ 'clicked': user.clicked }" @click="handleMasterClick(index)">
             <div class="pamm-master-box">

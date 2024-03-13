@@ -573,6 +573,7 @@ background-color: red;
     flex-direction: row;
     /* flex-grow: 6; */
     height: 65px;
+    align-items: center;
 }
 
 .bar-chart-data {
@@ -589,7 +590,7 @@ background-color: red;
     display: flex;
     flex-direction: row;
     justify-content: left;
-    width: 6.5vw;
+    /* width: 6.5vw; */
     height: 4.5vh;
     /* margin-right: 5px; */
     /* width: 500px; */
