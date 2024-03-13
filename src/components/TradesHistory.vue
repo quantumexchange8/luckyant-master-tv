@@ -53,7 +53,7 @@ async function fetchData(metaLoginValue) {
 }
 
 // Fetch data with the provided meta_login value
-fetchData('10773333');
+fetchData('10773318');
 
 // Calculate duration of close - open date and time 
 // Function to calculate duration in seconds
@@ -69,7 +69,7 @@ const calculateDuration = (openTime, closeTime) => {
 
 // Set interval to update data every second
 setInterval(() => {
-    fetchData('10773333');
+    fetchData('10773318');
 }, 1000);
 
 </script>
@@ -119,9 +119,9 @@ setInterval(() => {
                         </th> -->
                     </tr>
                 </thead>
-                <tbody v-if="tradeHistories.history && tradeHistories.history.length > 0">
+                <tbody v-if="tradeHistories.openTrades && tradeHistories.openTrades.length > 0">
                     <!-- <tr v-for="tradeHistory in tradeHistories" :key="tradeHistory.id" class="table-content-bckg"> -->
-                        <tr v-for="(tradeHistory, index) in tradeHistories.history.slice(0, 5)" :key="index" :class="{ 'table-content-bckg': index % 2 === 0, 'table-content': index % 2 !== 0 }">
+                        <tr v-for="(tradeHistory, index) in tradeHistories.openTrades.slice(0, 5)" :key="index" :class="{ 'table-content-bckg': index % 2 === 0, 'table-content': index % 2 !== 0 }">
                         <td class="px-6 py-4">
                             <div class="table-content-date-time">
                                 <div class="table-content-date">
