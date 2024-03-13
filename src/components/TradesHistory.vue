@@ -42,18 +42,18 @@ const loginStatus = ref(''); // Initialize loginStatus as an empty string
 
 async function fetchData(metaLoginValue) {
     try {
-        const response = await axios.get(`https://www.myfxbook.com/api/get-history.json?session=4gcHQQj80BSwyYjywWCy3636342&id=${metaLoginValue}`);
+        const response = await axios.get(`https://www.myfxbook.com/api/get-open-trades.json?session=4gcHQQj80BSwyYjywWCy3636342&id=${metaLoginValue}`);
         
         tradeHistories.value = response.data; // Set the metaLogin value upon successful login
-        // console.log('tradeHistories', tradeHistories.value);
+         console.log('tradeHistories', tradeHistories.value);
     } catch (error) {
-        console.error('Error fetching trade history data:', error);
+        console.error('Error fetching open trade data:', error);
         console.log('Login Status: Failed');
     }
 }
 
 // Fetch data with the provided meta_login value
-fetchData('10773318');
+fetchData('10773333');
 
 // Calculate duration of close - open date and time 
 // Function to calculate duration in seconds
@@ -69,7 +69,7 @@ const calculateDuration = (openTime, closeTime) => {
 
 // Set interval to update data every second
 setInterval(() => {
-    fetchData('10773318');
+    fetchData('10773333');
 }, 1000);
 
 </script>
@@ -86,7 +86,7 @@ setInterval(() => {
                 </div>
             </div>
             <div class="title-name">
-                <h3>Trades History</h3>
+                <h3>Open Trades</h3>
             </div>
         </div>
         <div class="information-content">
@@ -95,9 +95,6 @@ setInterval(() => {
                     <tr>
                         <th scope="col" class="px-6 py-3">
                             Open Date
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Close Date
                         </th>
                         <th scope="col" class="px-6 py-3">
                             Symbol
@@ -112,16 +109,10 @@ setInterval(() => {
                             Open Price
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Close Price
-                        </th>
-                        <th scope="col" class="px-6 py-3">
                             Pips
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Profit (USD)
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Duration
+                            Net Profit (USD)
                         </th>
                         <!-- <th scope="col" class="px-6 py-3">
                             Gain
@@ -145,19 +136,6 @@ setInterval(() => {
                             </div>
                         </td>
                         <td class="px-6 py-4">
-                            <div class="table-content-date-time">
-                                <div class="table-content-date">
-                                    <!-- {{ tradeHistory.closeTime }} -->
-                                    {{ tradeHistory.closeTime.split(' ')[0] }}
-
-                                </div>
-                                <div class="table-content-time">
-                                    <!-- 11:37:53 -->
-                                    {{ tradeHistory.closeTime.split(' ')[1] }}
-                                </div>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4">
                             <!-- GBPUSD -->
                             {{ tradeHistory.symbol }}
                         </td>
@@ -174,10 +152,6 @@ setInterval(() => {
                             {{ tradeHistory.openPrice }}
                         </td>
                         <td class="px-6 py-4">
-                            <!-- 1.29556 -->
-                            {{ tradeHistory.closePrice }}
-                        </td>
-                        <td class="px-6 py-4">
                             <span :style="{ color: tradeHistory.pips > 0 ? 'green' : (tradeHistory.pips < 0 ? 'red' : 'inherit') }">
                                 {{ tradeHistory.pips }}
                             </span>
@@ -188,10 +162,6 @@ setInterval(() => {
                             <span :style="{ color: tradeHistory.profit > 0 ? 'green' : (tradeHistory.profit < 0 ? 'red' : 'inherit') }">
                                 {{ tradeHistory.profit }}
                             </span>
-                        </td>
-                        <td class="px-6 py-4">
-                            <!-- 5s -->
-                            {{ calculateDuration(tradeHistory.openTime, tradeHistory.closeTime) }}s
                         </td>
                         <!-- <td class="px-6 py-4">
                         </td> -->
