@@ -50,7 +50,7 @@ const fetchAccountData = async (metaLoginValue) => {
 
 // const fetchHistory = async (metaLoginValue) => {
 //     try {
-//         const response = await axios.get(`https://www.myfxbook.com/api/get-history.json?session=DSL07vu14QxHWErTIAFrH40&id=${metaLoginValue}`);
+//         const response = await axios.get(`https://www.myfxbook.com/api/get-history.json?session=4gcHQQj80BSwyYjywWCy3636342&id=${metaLoginValue}`);
 //         const history = response.data.history;
 //         const totalTrades = history.length;
 //         // console.log('Total Trades:', totalTrades);
@@ -62,7 +62,7 @@ const fetchAccountData = async (metaLoginValue) => {
 
 const fetchHistory = async (metaLoginValue) => {
     try {
-        const response = await axios.get(`https://www.myfxbook.com/api/get-history.json?session=DSL07vu14QxHWErTIAFrH40&id=${metaLoginValue}`);
+        const response = await axios.get(`https://www.myfxbook.com/api/get-history.json?session=4gcHQQj80BSwyYjywWCy3636342&id=${metaLoginValue}`);
         const history = response.data.history;
 
         if (history.length === 0) {
