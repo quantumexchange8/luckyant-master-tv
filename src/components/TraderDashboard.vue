@@ -1,7 +1,6 @@
 <script setup>
-import { ref, onMounted, defineEmits } from 'vue';
+import { ref, onMounted } from 'vue';
 import axios from 'axios'; // Import Axios
-import GeneralInformation from './GeneralInformation.vue';
 
 // Function to apply color to total growth
 function applyColorToTotalGrowth() {
@@ -45,51 +44,34 @@ onMounted(() => {
 // // Call the initializeClickEvent function when the DOM content is loaded
 // document.addEventListener("DOMContentLoaded", initializeClickEvent);
 
-// Define the events your component emits
-const emits = defineEmits(['account-clicked']);
+// 
 
-// Your existing code
+const masterData = ref([]);
 
-const masterData = ref([
-  { name: 'Bullion AI-Trading', clicked: false, id: 1 },
-  { name: 'Titan X Robot', clicked: false, id: 2 }
-]);
-
-function handleMasterClick(index) {
-  masterData.value.forEach((master, idx) => {
-    master.clicked = idx === index;
-  });
-  // Emit the 'account-clicked' event with the selected account ID
-  const selectedAccountId = masterData.value[index].id;
-  emits('account-clicked', selectedAccountId);
-  
-  // Log the clicked account ID to the console
-  console.log('Clicked account ID:', selectedAccountId);
+async function fetchData() {
+    try {
+        const response = await axios.get('https://member.luckyantfxasia.com/api/getMaster');
+        masterData.value = response.data.metaUser;
+        console.log('Master Data:', masterData.value);
+    } catch (error) {
+        console.error('Error fetching live data:', error);
+    }
 }
 
+onMounted(() => {
+    fetchData(); // Fetch data when the component is mounted
+});
 
-
-// async function fetchData() {
-//     try {
-//         const response = await axios.get('https://member.luckyantfxasia.com/api/getMaster');
-//         masterData.value = response.data.metaUser;
-//         console.log('Master Data:', masterData.value);
-//     } catch (error) {
-//         console.error('Error fetching live data:', error);
-//     }
-// }
-
-// onMounted(() => {
-//     fetchData(); // Fetch data when the component is mounted
-// });
-
-// // Function to handle click event on master
-// function handleMasterClick(index) {
-//     // Reset background color of all masters
-//     masterData.value.forEach((master, idx) => {
-//         master.clicked = idx === index;
-//     });
-// }
+function handleMasterClick(index) {
+    // Toggle background color of clicked frame and reset others
+    masterData.value.forEach((master, idx) => {
+        if (idx === index) {
+            master.frameClicked = !master.frameClicked;
+        } else {
+            master.frameClicked = false;
+        }
+    });
+}
 
 
 </script>
@@ -109,10 +91,50 @@ function handleMasterClick(index) {
                 <h3>Masters</h3>
             </div>
         </div>
-        <!-- <div class="trader-dashboard-frame"> -->
-        <div class="trader-dashboard-frame"
-        :class="{ 'clicked': masterData[0].clicked }"
-        @click="handleMasterClick(0)">
+        <div v-for="(user, index) in masterData" :key="index" class="trader-dashboard-frame" :class="{ 'clicked': user.frameClicked }">
+            <div class="pamm-master-box" @click="handleMasterClick(index)">
+                <div class="dashboard-name-border">
+                    <div class="dashboard-name">
+                        <h4>{{ user.meta_user.name }}</h4> 
+                    </div>
+                </div>
+                <div class="trader-dashboard-content">
+                    <div class="trader-dashboard-img-1">
+                        <div class="shadow-container">
+                            <div class="hexagon-border">
+                                <img src="/src/assets/dashboard/icon-trans.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content-up-down">
+                        <div class="add-onbox">
+                            <div class="trader-dashboard-content-right">
+                                <div class="trader-dashboard-content-right-name">
+                                    <p>Balance</p>
+                                    <p>Investors</p>
+                                </div>
+                            </div>
+                            <div class="trader-dashboard-content-right-data">
+                                <p>$ {{ user.meta_user.balance }} </p>
+                                <p>{{ user.subscriber }}</p>
+                            </div>
+                        </div>
+                        <div class="bar-chart-data">
+                            <div class="bar-chart">
+                                <div id="bar-chart-container">
+                                    <img id="svg-img" src="/src/assets/svg/barchart.svg" alt="">
+                                </div>
+                            </div>
+                            <div class="bar-chart-profitability">
+                                <p>Profitability</p>
+                                <p class="font-green-color">96.83%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="trader-dashboard-frame">
         <div class="pamm-master-box">
                 <div class="dashboard-name-border">
                     <div class="dashboard-name">
@@ -158,10 +180,7 @@ function handleMasterClick(index) {
             </div>
         </div>
             <br>
-            <!-- <div class="trader-dashboard-frame"> -->
-            <div class="trader-dashboard-frame"
-        :class="{ 'clicked': masterData[1].clicked }"
-        @click="handleMasterClick(1)">
+            <div class="trader-dashboard-frame">
             <div class="pamm-master-box">
                 <div class="dashboard-name-border">
                     <div class="dashboard-name">
@@ -205,7 +224,7 @@ function handleMasterClick(index) {
                 </div>
             </div>
             </div>
-        </div>
+        </div> -->
         <!-- <div id="clickable1" v-for="(user, index) in masterData" :key="index" class="trader-dashboard-frame"> -->
             <!-- <div id="clickable1" v-for="(user, index) in masterData" :key="index" class="trader-dashboard-frame" :class="{ 'clicked': user.clicked }" @click="handleMasterClick(index)">
             <div class="pamm-master-box">

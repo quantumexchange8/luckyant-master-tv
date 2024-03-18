@@ -1,7 +1,7 @@
 <script setup>
 
 import axios from "axios";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, defineProps } from "vue";
 
 const metaInformation = ref(null); // Data from the first API
 const openTrades = ref([]); // Data from the second API
@@ -12,101 +12,139 @@ const session = ref(''); // Your session value here
 const email = ref('official@luckyantfxasia.com');
 const password = ref('72l3SGK=f;8V'); // Your original password
 
-const fetchData = async () => {
-    try {
-        // console.log(session.value)
-        const response = await axios.get(`https://www.myfxbook.com/api/get-my-accounts.json?session=4gcHQQj80BSwyYjywWCy3636342`);
-        metaInformation.value = response.data.accounts[0];
-        // console.log(metaInformation.value)
-    } catch (error) {
-        console.error('Error fetching live data:', error);
-    }
-}
+// const fetchData = async () => {
+//     try {
+//         // console.log(session.value)
+//         const response = await axios.get(`https://www.myfxbook.com/api/get-my-accounts.json?session=4gcHQQj80BSwyYjywWCy3636342`);
+//         metaInformation.value = response.data.accounts[0];
+//         console.log(metaInformation.value)
+//     } catch (error) {
+//         console.error('Error fetching live data:', error);
+//     }
+// }
 
 
-const fetchOpenTrades = async (metaLoginValue) => {
-    try {
-        // console.log(value);
-        const response = await axios.get(`https://www.myfxbook.com/api/get-open-trades.json?session=4gcHQQj80BSwyYjywWCy3636342&id=${metaLoginValue}`);
-        // console.log('Open Trades Data:', response.data);
-        openTrades.value = response.data.openTrades;
-    } catch (error) {
-        console.error('Error fetching open trades:', error);
-    }
-};
+// const fetchOpenTrades = async (metaLoginValue) => {
+//     try {
+//         // console.log(value);
+//         const response = await axios.get(`https://www.myfxbook.com/api/get-open-trades.json?session=4gcHQQj80BSwyYjywWCy3636342&id=${metaLoginValue}`);
+//         // console.log('Open Trades Data:', response.data);
+//         openTrades.value = response.data.openTrades;
+//     } catch (error) {
+//         console.error('Error fetching open trades:', error);
+//     }
+// };
 
 
-const fetchAccountData = async (metaLoginValue) => {
-    try {
-        const response = await axios.get(`https://www.myfxbook.com/api/get-my-accounts.json?session=4gcHQQj80BSwyYjywWCy3636342&id=${metaLoginValue}`);
-        accountData.value = response.data.accounts[0];
-        // const profitFactor = accountData.profitFactor;
-        // console.log('Profit Factor:', profitFactor);
-    } catch (error) {
-        console.error('Error fetching account data:', error);
-    }
-}
+// const fetchAccountData = async (metaLoginValue) => {
+//     try {
+//         const response = await axios.get(`https://www.myfxbook.com/api/get-my-accounts.json?session=4gcHQQj80BSwyYjywWCy3636342&id=${metaLoginValue}`);
+//         accountData.value = response.data.accounts[0];
+//         // const profitFactor = accountData.profitFactor;
+//         // console.log('Profit Factor:', profitFactor);
+//     } catch (error) {
+//         console.error('Error fetching account data:', error);
+//     }
+// }
+
+
+// // const fetchHistory = async (metaLoginValue) => {
+// //     try {
+// //         const response = await axios.get(`https://www.myfxbook.com/api/get-history.json?session=4gcHQQj80BSwyYjywWCy3636342&id=${metaLoginValue}`);
+// //         const history = response.data.history;
+// //         const totalTrades = history.length;
+// //         // console.log('Total Trades:', totalTrades);
+// //     } catch (error) {
+// //         console.error('Error fetching history data:', error);
+// //     }
+// // };
 
 
 // const fetchHistory = async (metaLoginValue) => {
 //     try {
 //         const response = await axios.get(`https://www.myfxbook.com/api/get-history.json?session=4gcHQQj80BSwyYjywWCy3636342&id=${metaLoginValue}`);
 //         const history = response.data.history;
-//         const totalTrades = history.length;
-//         // console.log('Total Trades:', totalTrades);
+
+//         if (history.length === 0) {
+//             console.log('No trades found in history');
+//             return null; // Return null if there are no trades
+//         }
+
+//         // Get the close time of the latest trade
+//         const latestTrade = history[0];
+//         if (!latestTrade.closeTime) {
+//             console.error('Close time not found for the latest trade');
+//             return null; // Return null if closeTime is not defined
+//         }
+
+//         const latestTradeCloseTime = new Date(latestTrade.closeTime);
+
+//         // Calculate the duration since the close time of the latest trade
+//         const currentTime = new Date();
+//         const durationInMillis = currentTime.getTime() - latestTradeCloseTime.getTime();
+
+//         // Convert the duration to minutes
+//         const durationInMinutes = Math.floor(durationInMillis / (1000 * 60));
+
+//         console.log('Duration of the latest trade (in minutes):', durationInMinutes);
+//         return durationInMinutes; // Return the duration of the latest trade
 //     } catch (error) {
 //         console.error('Error fetching history data:', error);
 //     }
 // };
 
 
-const fetchHistory = async (metaLoginValue) => {
+// onMounted(async () => {
+//     await fetchData(); // Fetch data when the component is mounted
+//     await fetchOpenTrades('10773318'); // Fetch open trades data after fetching account data
+//     await fetchAccountData('10773318');
+//     // const latestTradeDuration = await fetchHistory('10773318'); // Fetch history and calculate duration
+//     // console.log('Duration of the latest trade (in minutes):', latestTradeDuration);
+// });
+
+// // onMounted(() => {
+// //     fetchData(); 
+// // });
+
+
+
+
+const props = defineProps({
+  selectedAccountId: Number // Change the prop type to Number
+});
+
+const fetchAccountData = async () => {
     try {
-        const response = await axios.get(`https://www.myfxbook.com/api/get-history.json?session=4gcHQQj80BSwyYjywWCy3636342&id=${metaLoginValue}`);
-        const history = response.data.history;
-
-        if (history.length === 0) {
-            console.log('No trades found in history');
-            return null; // Return null if there are no trades
-        }
-
-        // Get the close time of the latest trade
-        const latestTrade = history[0];
-        if (!latestTrade.closeTime) {
-            console.error('Close time not found for the latest trade');
-            return null; // Return null if closeTime is not defined
-        }
-
-        const latestTradeCloseTime = new Date(latestTrade.closeTime);
-
-        // Calculate the duration since the close time of the latest trade
-        const currentTime = new Date();
-        const durationInMillis = currentTime.getTime() - latestTradeCloseTime.getTime();
-
-        // Convert the duration to minutes
-        const durationInMinutes = Math.floor(durationInMillis / (1000 * 60));
-
-        console.log('Duration of the latest trade (in minutes):', durationInMinutes);
-        return durationInMinutes; // Return the duration of the latest trade
+        const response = await axios.get(`https://www.myfxbook.com/api/get-my-accounts.json?session=4gcHQQj80BSwyYjywWCy3636342&id=${props.accountId}`);
+        accountData.value = response.data.accounts[0];
     } catch (error) {
-        console.error('Error fetching history data:', error);
+        console.error('Error fetching account data:', error);
+    }
+}
+
+const fetchOpenTrades = async () => {
+    try {
+        const response = await axios.get(`https://www.myfxbook.com/api/get-open-trades.json?session=4gcHQQj80BSwyYjywWCy3636342&id=${props.accountId}`);
+        openTrades.value = response.data.openTrades;
+    } catch (error) {
+        console.error('Error fetching open trades:', error);
     }
 };
 
+const fetchData = async () => {
+    try {
+        const response = await axios.get(`https://www.myfxbook.com/api/get-my-accounts.json?session=4gcHQQj80BSwyYjywWCy3636342&id=${props.accountId}`);
+        metaInformation.value = response.data.accounts[0];
+    } catch (error) {
+        console.error('Error fetching live data:', error);
+    }
+}
 
 onMounted(async () => {
     await fetchData(); // Fetch data when the component is mounted
-    await fetchOpenTrades('10773318'); // Fetch open trades data after fetching account data
-    await fetchAccountData('10773318');
-    // const latestTradeDuration = await fetchHistory('10773318'); // Fetch history and calculate duration
-    // console.log('Duration of the latest trade (in minutes):', latestTradeDuration);
+    await fetchOpenTrades(); // Fetch open trades data after fetching account data
+    await fetchAccountData();
 });
-
-// onMounted(() => {
-//     fetchData(); 
-// });
-
-
 
 </script>
 

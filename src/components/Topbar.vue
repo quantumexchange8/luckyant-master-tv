@@ -35,7 +35,7 @@ async function fetchData() {
     try {
         const response = await axios.get('https://testmember.luckyantfxasia.com/api/getMaster');
         const masterData = response.data.status; // Assuming status is directly available in the response data
-        console.log('Response Data Status:', masterData); // Log the status from the response data
+        // console.log('Response Data Status:', masterData); // Log the status from the response data
 
         // Check the status from the master data and update the online status
         online.value = masterData === 'success';

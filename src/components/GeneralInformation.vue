@@ -1,9 +1,8 @@
 <script setup>
 import axios from "axios";
-import {onMounted, ref, watch} from "vue";
+import {onMounted, ref} from "vue";
 
 const metaInformation = ref();
-const selectedAccountId = ref('');
 const session = ref('');
 const email = ref('official@luckyantfxasia.com');
 const password = ref('72l3SGK=f;8V'); // Your original password
@@ -20,53 +19,19 @@ const password = ref('72l3SGK=f;8V'); // Your original password
 //
 // authSession();
 
-// const fetchData = async () => {
-//     try {
-//         console.log(session.value)
-//         const response = await axios.get(`https://www.myfxbook.com/api/get-my-accounts.json?session=4gcHQQj80BSwyYjywWCy3636342`);
-//         metaInformation.value = response.data.accounts[0];
-//         // console.log(metaInformation.value)
-//     } catch (error) {
-//         console.error('Error fetching live data:', error);
-//     }
-// }
-
-// Still figuring out, stay tuned 
 const fetchData = async () => {
     try {
-        if (!selectedAccountId.value) {
-            // If no account is selected, return or handle the case appropriately
-            return;
-        }
-
-        // Assuming the selectedAccountId is properly set, include it in the API URL
-        const response = await axios.get(`https://www.myfxbook.com/api/get-my-accounts.json?session=4gcHQQj80BSwyYjywWCy3636342&id=${selectedAccountId.value}`);
-        // Assuming the API returns an array of accounts, find the account matching the selectedAccountId
-        const account = response.data.accounts.find(account => account.id === selectedAccountId.value);
-        
-        if (account) {
-            // If the account is found, update the metaInformation value with the account data
-            metaInformation.value = account;
-        } else {
-            // Handle the case where the account is not found
-            console.error('Selected account not found');
-        }
+        console.log(session.value)
+        const response = await axios.get(`https://www.myfxbook.com/api/get-my-accounts.json?session=4gcHQQj80BSwyYjywWCy3636342`);
+        metaInformation.value = response.data.accounts[0];
+        console.log(metaInformation.value)
     } catch (error) {
         console.error('Error fetching live data:', error);
     }
 }
 
-
-
 onMounted(() => {
     fetchData(); // Fetch data when the component is mounted
-});
-
-// Watch for changes in selectedAccountId and fetch data accordingly
-watch(selectedAccountId, (newAccountId, oldAccountId) => {
-    console.log('New Account ID:', newAccountId);
-    console.log('Old Account ID:', oldAccountId);
-    fetchData();
 });
 
 const metaInformationDate = (date) => {

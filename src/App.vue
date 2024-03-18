@@ -12,25 +12,28 @@ import TradesStatistics from './components/TradesStatistics.vue';
 import './css/main.css'
 import './css/responsive.css'
 
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
 const selectedAccountId = ref(null);
 const masterData = ref([]);
 
-async function fetchData(accountId) {
-  try {
-    const response = await axios.get(`https://member.luckyantfxasia.com/api/getMaster/${accountId}`);
-    masterData.value = response.data.metaUser;
-    console.log('Master Data:', masterData.value);
-  } catch (error) {
-    console.error('Error fetching live data:', error);
-  }
+const fetchData = async () => {
+    try {
+        const response = await axios.get(`https://www.myfxbook.com/api/get-my-accounts.json?session=4gcHQQj80BSwyYjywWCy3636342`);
+        masterData.value = response.data.accounts[0];
+        console.log('Master Data:', masterData.value);
+    } catch (error) {
+        console.error('Error fetching live data:', error);
+    }
 }
+
+onMounted(() => {
+    fetchData(); // Fetch data when the component is mounted
+});
 
 const handleAccountClicked = (accountId) => {
   selectedAccountId.value = accountId; // Update accountId when an account is clicked
-  fetchData(accountId); // Fetch data based on the clicked accountId
 }
 
 
@@ -42,10 +45,10 @@ const handleAccountClicked = (accountId) => {
         <Topbar/>
         <div id="box2" class="content">
             <div id="box3" class="content-left">
-                <TraderDashboard @account-clicked="handleAccountClicked" />
+                <TraderDashboard :accountId="selectedAccountId" @account-clicked="handleAccountClicked" />
                 <div id="box5" class="content-left-right">
-                    <GeneralInformation/>
-                    <TradesStatistics/>
+                    <GeneralInformation :selectedAccountId="selectedAccountId" />
+                    <TradesStatistics :selectedAccountId="selectedAccountId" />
                 </div>
             </div>
             <div id="box6" class="content-right">
