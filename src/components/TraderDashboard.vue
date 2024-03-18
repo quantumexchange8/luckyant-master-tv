@@ -1,6 +1,7 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, defineEmits } from 'vue';
 import axios from 'axios'; // Import Axios
+import GeneralInformation from './GeneralInformation.vue';
 
 // Function to apply color to total growth
 function applyColorToTotalGrowth() {
@@ -44,31 +45,51 @@ onMounted(() => {
 // // Call the initializeClickEvent function when the DOM content is loaded
 // document.addEventListener("DOMContentLoaded", initializeClickEvent);
 
-// 
+// Define the events your component emits
+const emits = defineEmits(['account-clicked']);
 
-const masterData = ref([]);
+// Your existing code
 
-async function fetchData() {
-    try {
-        const response = await axios.get('https://member.luckyantfxasia.com/api/getMaster');
-        masterData.value = response.data.metaUser;
-        console.log('Master Data:', masterData.value);
-    } catch (error) {
-        console.error('Error fetching live data:', error);
-    }
-}
+const masterData = ref([
+  { name: 'Bullion AI-Trading', clicked: false, id: 1 },
+  { name: 'Titan X Robot', clicked: false, id: 2 }
+]);
 
-onMounted(() => {
-    fetchData(); // Fetch data when the component is mounted
-});
-
-// Function to handle click event on master
 function handleMasterClick(index) {
-    // Reset background color of all masters
-    masterData.value.forEach((master, idx) => {
-        master.clicked = idx === index;
-    });
+  masterData.value.forEach((master, idx) => {
+    master.clicked = idx === index;
+  });
+  // Emit the 'account-clicked' event with the selected account ID
+  const selectedAccountId = masterData.value[index].id;
+  emits('account-clicked', selectedAccountId);
+  
+  // Log the clicked account ID to the console
+  console.log('Clicked account ID:', selectedAccountId);
 }
+
+
+
+// async function fetchData() {
+//     try {
+//         const response = await axios.get('https://member.luckyantfxasia.com/api/getMaster');
+//         masterData.value = response.data.metaUser;
+//         console.log('Master Data:', masterData.value);
+//     } catch (error) {
+//         console.error('Error fetching live data:', error);
+//     }
+// }
+
+// onMounted(() => {
+//     fetchData(); // Fetch data when the component is mounted
+// });
+
+// // Function to handle click event on master
+// function handleMasterClick(index) {
+//     // Reset background color of all masters
+//     masterData.value.forEach((master, idx) => {
+//         master.clicked = idx === index;
+//     });
+// }
 
 
 </script>
@@ -88,7 +109,10 @@ function handleMasterClick(index) {
                 <h3>Masters</h3>
             </div>
         </div>
-        <div class="trader-dashboard-frame">
+        <!-- <div class="trader-dashboard-frame"> -->
+        <div class="trader-dashboard-frame"
+        :class="{ 'clicked': masterData[0].clicked }"
+        @click="handleMasterClick(0)">
         <div class="pamm-master-box">
                 <div class="dashboard-name-border">
                     <div class="dashboard-name">
@@ -134,7 +158,10 @@ function handleMasterClick(index) {
             </div>
         </div>
             <br>
-            <div class="trader-dashboard-frame">
+            <!-- <div class="trader-dashboard-frame"> -->
+            <div class="trader-dashboard-frame"
+        :class="{ 'clicked': masterData[1].clicked }"
+        @click="handleMasterClick(1)">
             <div class="pamm-master-box">
                 <div class="dashboard-name-border">
                     <div class="dashboard-name">
