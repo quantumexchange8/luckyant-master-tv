@@ -36,7 +36,7 @@ const daysSinceFirstTrade = (dateString) => {
         </div>
         <div class="trader-dashboard-frame">
             <div class="information-content">
-                <div class="information-content-left">
+                <div class="information-content-1">
                     <div class="information-part-1">
                         <p>Profit</p>
                         <p>Floating P/L</p>
@@ -45,30 +45,22 @@ const daysSinceFirstTrade = (dateString) => {
                         <p>Deposit</p>
                         <p>Withdrawal</p>
                     </div>
-                    <div class="information-part-2">
-                        <p>Total Growth</p>
-                        <p>Current Month Growth</p>
-                        <p>Max. Daily Growth</p>
-                        <p>Current Drawdown</p>
-                        <p>Max. Drawdown</p>
-                    </div>
-                    <div class="information-part-3">
-<!--                        <p>Investors</p>-->
-                        <p>Leverage</p>
-                        <p>Performance Fee</p>
-                        <p>Started Date</p>
-                        <p>Active Days</p>
-<!--                        <p>Latest Activity</p>-->
-                    </div>
-                </div>
-                <div v-if="masterAccount" class="information-content-right">
-                    <div class="information-data-part-1">
+                    <div class="information-data-part-1"  v-if="masterAccount">
                         <p>$ {{ masterAccount.profit }}</p>
                         <p>$ {{ masterAccount.equity - masterAccount.balance }}</p>
                         <p>$ {{ masterAccount.equity }}</p>
                         <p>$ {{ masterAccount.balance }}</p>
                         <p>$ {{ masterAccount.deposits }}</p>
                         <p>$ {{ masterAccount.withdrawals }}</p>
+                    </div>
+                </div>
+                <div class="information-content-2">
+                    <div class="information-part-2">
+                        <p>Total Growth</p>
+                        <p>Current Month Growth</p>
+                        <p>Max. Daily Growth</p>
+                        <p>Current Drawdown</p>
+                        <p>Max. Drawdown</p>
                     </div>
                     <div class="information-data-part-2">
                         <p class="font-green-color">+941.83%</p>
@@ -77,13 +69,21 @@ const daysSinceFirstTrade = (dateString) => {
                         <p>0.07%</p>
                         <p>7.13%</p>
                     </div>
-                    <div class="information-data-part-3">
-<!--                        <p>100</p>-->
+                </div>
+                <div class="information-content-3">
+                    <div class="information-part-3">
+                        <!--<p>Investors</p>-->
+                        <p>Leverage</p>
+                        <p>Performance Fee</p>
+                        <p>Started Date</p>
+                        <p>Active Days</p>
+                        <!--<p>Latest Activity</p>-->
+                    </div>
+                    <div class="information-data-part-3"  v-if="masterAccount">
                         <p>1:500</p>
                         <p>40%</p>
                         <p>{{ metaInformationDate(masterAccount.firstTradeDate) }}</p>
                         <p>{{ daysSinceFirstTrade (masterAccount.firstTradeDate) }} Days</p>
-<!--                        <p>30 mins ago</p>-->
                     </div>
                 </div>
             </div>

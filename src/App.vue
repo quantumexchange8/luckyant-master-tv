@@ -14,7 +14,8 @@ import './css/responsive.css'
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
-const liveMasters = ref({});
+// const liveMasters = ref({});
+const liveMasters = ref([]);
 const masterAccount = ref();
 
 const fetchData = async () => {
@@ -46,7 +47,13 @@ onMounted(() => {
                     <GeneralInformation
                         :masterAccount="masterAccount"
                     />
-                    <TradesStatistics :masterAccount="masterAccount" />
+                    <TradesStatistics 
+                    :masterAccount="masterAccount" 
+                    />
+                    <!-- <TradesStatistics 
+                    :masterAccount="masterAccount" 
+                    :accountId="accountId" 
+                    /> -->
                 </div>
             </div>
             <div id="box6" class="content-right">
@@ -64,7 +71,9 @@ onMounted(() => {
                             <DailyPeriods/>
                         </div>
                     </div>
-                    <TradesHistory/>
+                    <TradesHistory 
+                    :masterAccount="masterAccount" 
+                     />
                 </div>
             </div>
         </div>
