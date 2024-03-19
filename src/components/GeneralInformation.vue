@@ -1,38 +1,7 @@
 <script setup>
-import axios from "axios";
-import {onMounted, ref} from "vue";
-
-const metaInformation = ref();
-const session = ref('');
-const email = ref('official@luckyantfxasia.com');
-const password = ref('72l3SGK=f;8V'); // Your original password
-
-// const authSession = async () => {
-//     try {
-//         const response = await axios.get(`https://www.myfxbook.com/api/login.json?email=${email.value}&password=${password.value}`);
-//         session.value = response.data;
-//         console.log(response.data)
-//     } catch (error) {
-//         console.error('Error fetching live data:', error);
-//     }
-// }
-//
-// authSession();
-
-const fetchData = async () => {
-    try {
-        console.log(session.value)
-        const response = await axios.get(`https://www.myfxbook.com/api/get-my-accounts.json?session=4gcHQQj80BSwyYjywWCy3636342`);
-        metaInformation.value = response.data.accounts[0];
-        console.log(metaInformation.value)
-    } catch (error) {
-        console.error('Error fetching live data:', error);
-    }
-}
-
-onMounted(() => {
-    fetchData(); // Fetch data when the component is mounted
-});
+const props = defineProps({
+    masterAccount: Object
+})
 
 const metaInformationDate = (date) => {
     const dateString = date;
@@ -92,14 +61,14 @@ const daysSinceFirstTrade = (dateString) => {
 <!--                        <p>Latest Activity</p>-->
                     </div>
                 </div>
-                <div v-if="metaInformation" class="information-content-right">
+                <div v-if="masterAccount" class="information-content-right">
                     <div class="information-data-part-1">
-                        <p>$ {{ metaInformation.profit }}</p>
-                        <p>$ {{ metaInformation.equity - metaInformation.balance }}</p>
-                        <p>$ {{ metaInformation.equity }}</p>
-                        <p>$ {{ metaInformation.balance }}</p>
-                        <p>$ {{ metaInformation.deposits }}</p>
-                        <p>$ {{ metaInformation.withdrawals }}</p>
+                        <p>$ {{ masterAccount.profit }}</p>
+                        <p>$ {{ masterAccount.equity - masterAccount.balance }}</p>
+                        <p>$ {{ masterAccount.equity }}</p>
+                        <p>$ {{ masterAccount.balance }}</p>
+                        <p>$ {{ masterAccount.deposits }}</p>
+                        <p>$ {{ masterAccount.withdrawals }}</p>
                     </div>
                     <div class="information-data-part-2">
                         <p class="font-green-color">+941.83%</p>
@@ -112,8 +81,8 @@ const daysSinceFirstTrade = (dateString) => {
 <!--                        <p>100</p>-->
                         <p>1:500</p>
                         <p>40%</p>
-                        <p>{{ metaInformationDate(metaInformation.firstTradeDate) }}</p>
-                        <p>{{ daysSinceFirstTrade (metaInformation.firstTradeDate) }} Days</p>
+                        <p>{{ metaInformationDate(masterAccount.firstTradeDate) }}</p>
+                        <p>{{ daysSinceFirstTrade (masterAccount.firstTradeDate) }} Days</p>
 <!--                        <p>30 mins ago</p>-->
                     </div>
                 </div>

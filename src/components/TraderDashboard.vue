@@ -2,6 +2,17 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios'; // Import Axios
 
+const props = defineProps({
+    liveMasters: Object
+})
+
+const master = ref();
+const emit = defineEmits(['update:masterAccount'])
+const getMaster = (account) => {
+    master.value = account
+    emit('update:masterAccount', master.value)
+}
+
 // Function to apply color to total growth
 function applyColorToTotalGrowth() {
     const TDs = document.querySelectorAll('.trader-dashboard-content-right-data > p:nth-child(3)'); 
@@ -18,60 +29,9 @@ function applyColorToTotalGrowth() {
     }
 }
 
-onMounted(() => {
-    applyColorToTotalGrowth();
-});
-
-// // Function to initialize click event
-// function initializeClickEvent() {
-//     // Select all elements with IDs starting with "clickable"
-//     var elements = document.querySelectorAll("[id^='clickable']");
-    
-//     // Loop through each element
-//     elements.forEach(function(element) {
-//         // Add a click event listener to each element
-//         element.addEventListener("click", function() {
-//             // Remove the "clicked" class from all elements
-//             elements.forEach(function(el) {
-//                 el.classList.remove("clicked");
-//             });
-//             // Add the "clicked" class to the clicked element
-//             element.classList.add("clicked");
-//         });
-//     });
-// }
-
-// // Call the initializeClickEvent function when the DOM content is loaded
-// document.addEventListener("DOMContentLoaded", initializeClickEvent);
-
-// 
-
-const masterData = ref([]);
-
-async function fetchData() {
-    try {
-        const response = await axios.get('https://member.luckyantfxasia.com/api/getMaster');
-        masterData.value = response.data.metaUser;
-        console.log('Master Data:', masterData.value);
-    } catch (error) {
-        console.error('Error fetching live data:', error);
-    }
-}
-
-onMounted(() => {
-    fetchData(); // Fetch data when the component is mounted
-});
-
-function handleMasterClick(index) {
-    // Toggle background color of clicked frame and reset others
-    masterData.value.forEach((master, idx) => {
-        if (idx === index) {
-            master.frameClicked = !master.frameClicked;
-        } else {
-            master.frameClicked = false;
-        }
-    });
-}
+// onMounted(() => {
+//     applyColorToTotalGrowth();
+// });
 
 
 </script>
@@ -91,11 +51,19 @@ function handleMasterClick(index) {
                 <h3>Masters</h3>
             </div>
         </div>
-        <div v-for="(user, index) in masterData" :key="index" class="trader-dashboard-frame" :class="{ 'clicked': user.frameClicked }">
-            <div class="pamm-master-box" @click="handleMasterClick(index)">
+        <div
+            v-for="(user, index) in liveMasters"
+            :key="index"
+            class="trader-dashboard-frame"
+            :class="{ 'clicked': user === master }"
+        >
+            <div
+                class="pamm-master-box"
+                @click="getMaster(user)"
+            >
                 <div class="dashboard-name-border">
                     <div class="dashboard-name">
-                        <h4>{{ user.meta_user.name }}</h4> 
+                        <h4>{{ user.name }}</h4>
                     </div>
                 </div>
                 <div class="trader-dashboard-content">
@@ -111,12 +79,12 @@ function handleMasterClick(index) {
                             <div class="trader-dashboard-content-right">
                                 <div class="trader-dashboard-content-right-name">
                                     <p>Balance</p>
-                                    <p>Investors</p>
+<!--                                    <p>Investors</p>-->
                                 </div>
                             </div>
                             <div class="trader-dashboard-content-right-data">
-                                <p>$ {{ user.meta_user.balance }} </p>
-                                <p>{{ user.subscriber }}</p>
+                                <p>$ {{ user.balance }} </p>
+<!--                                <p>{{ user.subscriber }}</p>-->
                             </div>
                         </div>
                         <div class="bar-chart-data">
