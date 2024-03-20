@@ -3,7 +3,8 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios'; // Import Axios
 
 const props = defineProps({
-    liveMasters: Object
+    liveMasters: Object,
+    masterAccount: Object,
 })
 
 const master = ref();
@@ -55,7 +56,7 @@ function applyColorToTotalGrowth() {
             v-for="(user, index) in liveMasters"
             :key="index"
             class="trader-dashboard-frame"
-            :class="{ 'clicked': user === master }"
+            :class="{ 'clicked': user === master || user === masterAccount}"
         >
             <div
                 class="pamm-master-box"

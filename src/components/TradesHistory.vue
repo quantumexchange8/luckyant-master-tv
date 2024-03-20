@@ -1,6 +1,6 @@
 <script setup>
 
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import axios from 'axios';
 
 function applyColorToProfitAndGain() {
@@ -35,42 +35,55 @@ onMounted(() => {
 });
 
 
+const props = defineProps({
+    masterAccount: Object
+})
 
-// To instant update the active master 
-const tradeHistories = ref(''); // Initialize metaLogin as an empty string
-const loginStatus = ref(''); // Initialize loginStatus as an empty string
+const tradeHistories = ref([])
+const accountId = ref()
 
-async function fetchData(metaLoginValue) {
+async function fetchData() {
     try {
-        const response = await axios.get(`https://www.myfxbook.com/api/get-open-trades.json?session=4gcHQQj80BSwyYjywWCy3636342&id=${metaLoginValue}`);
+        const response = await axios.get(`https://www.myfxbook.com/api/get-open-trades.json?session=4gcHQQj80BSwyYjywWCy3636342&id=${accountId.value}`);
         
         tradeHistories.value = response.data; // Set the metaLogin value upon successful login
-        //  console.log('tradeHistories', tradeHistories.value);
+        console.log('Trade History: ', tradeHistories.value)
     } catch (error) {
         console.error('Error fetching open trade data:', error);
-        console.log('Login Status: Failed');
+        console.log('Login Status: Failed');    
     }
 }
 
-// Fetch data with the provided meta_login value
-fetchData('10773318');
+// Fetch data initially and whenever accountId changes
+// onMounted(fetchData);
 
-// Calculate duration of close - open date and time 
-// Function to calculate duration in seconds
-const calculateDuration = (openTime, closeTime) => {
-    const openDate = new Date(openTime);
-    const closeDate = new Date(closeTime);
+// Also watch for changes in tradeHistories
+watch(() => props.masterAccount, (newMasterAccount) => {
+    if (props.masterAccount) {
+        accountId.value = newMasterAccount.id
+        fetchData();
+    }
+});
 
-    const durationMilliseconds = closeDate - openDate;
-    const durationSeconds = Math.floor(durationMilliseconds / 1000);
+// // Fetch data with the provided meta_login value
+// fetchData('10773318');
 
-    return durationSeconds;
-};
+// // Calculate duration of close - open date and time 
+// // Function to calculate duration in seconds
+// const calculateDuration = (openTime, closeTime) => {
+//     const openDate = new Date(openTime);
+//     const closeDate = new Date(closeTime);
 
-// Set interval to update data every second
-setInterval(() => {
-    fetchData('10773318');
-}, 1000);
+//     const durationMilliseconds = closeDate - openDate;
+//     const durationSeconds = Math.floor(durationMilliseconds / 1000);
+
+//     return durationSeconds;
+// };
+
+// // Set interval to update data every second
+// setInterval(() => {
+//     fetchData('10773318');
+// }, 1000);
 
 </script>
 
@@ -87,6 +100,7 @@ setInterval(() => {
             </div>
             <div class="title-name">
                 <h3>Open Trades</h3>
+                <!-- - {{ masterAccount ? masterAccount.id : '' }} -->
             </div>
         </div>
         <div class="information-content">
@@ -152,14 +166,14 @@ setInterval(() => {
                             {{ tradeHistory.openPrice }}
                         </td>
                         <td class="px-6 py-4">
-                            <span :style="{ color: tradeHistory.pips > 0 ? 'green' : (tradeHistory.pips < 0 ? 'red' : 'inherit') }">
+                            <span :style="{ color: tradeHistory.pips > 0 ? '#06F7A1' : (tradeHistory.pips < 0 ? '#FF483D' : 'inherit') }">
                                 {{ tradeHistory.pips }}
                             </span>
                         </td>
                         <td class="px-6 py-4">
                             <!-- -25,000.00 -->
                             <!-- {{ tradeHistory.profit }} -->
-                            <span :style="{ color: tradeHistory.profit > 0 ? 'green' : (tradeHistory.profit < 0 ? 'red' : 'inherit') }">
+                            <span :style="{ color: tradeHistory.profit > 0 ? '#06F7A1' : (tradeHistory.profit < 0 ? '#FF483D' : 'inherit') }">
                                 {{ tradeHistory.profit }}
                             </span>
                         </td>

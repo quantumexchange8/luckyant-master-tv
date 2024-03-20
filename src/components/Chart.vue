@@ -1,5 +1,6 @@
 <script setup>
-import { onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
+import axios from 'axios';
 
 // Function to calculate responsive font size
 function responsiveFonts() {
@@ -104,6 +105,9 @@ onMounted(() => {
       createChartConfig(chartContext, lineChartData, fontSize, dateStrings)
   );
   updateFontSizes(lineChart, fontSize);
+
+// Initial call to responsiveFonts function
+responsiveFonts();
 });
 
 // Call the responsiveFonts function after window resize
@@ -113,8 +117,47 @@ window.addEventListener('resize', function() {
   updateFontSizes(lineChart, fontSize);
 });
 
-// Initial call to responsiveFonts function
-responsiveFonts();
+// // Initial call to responsiveFonts function
+// responsiveFonts();
+
+
+// const props = defineProps({
+//     masterAccount: Object
+// })
+
+// const areaChart = ref([])
+// const accountId = ref()
+
+// async function fetchData() {
+//     try {
+//         const response = await axios.get(`https://www.myfxbook.com/api/get-history.json?session=4gcHQQj80BSwyYjywWCy3636342&id=${accountId.value}`);
+        
+//         // Extracting closeTime dates and profit values and logging them
+//         const closeTimeDates = response.data.history.map(entry => {
+//             return entry.closeTime.split(' ')[0]; // Extracting only the date part
+//         });
+//         const profits = response.data.history.map(entry => entry.profit);
+        
+//         console.log('Close Time Dates: ', closeTimeDates);
+//         console.log('Profits: ', profits);
+
+//         // Set the areaChart value upon successful response
+//         areaChart.value = response.data;
+//     } catch (error) {
+//         console.error('Error fetching history:', error);
+//         console.log('Login Status: Failed');    
+//     }
+// }
+
+// watch(() => props.masterAccount, (newMasterAccount) => {
+//     if (props.masterAccount) {
+//         accountId.value = newMasterAccount.id
+//         fetchData();
+//     }
+// });
+
+
+
 </script>
 
 <template>

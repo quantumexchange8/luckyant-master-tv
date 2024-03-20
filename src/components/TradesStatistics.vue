@@ -75,7 +75,7 @@ const props = defineProps({
         </div>
         <div class="trader-dashboard-frame">
             <div class="information-content">
-                <div class="information-content-left">
+                <div class="information-content-1">
                     <div class="information-part-1">
                         <p>Total Trades</p>
                         <p>Profitability</p>
@@ -86,23 +86,7 @@ const props = defineProps({
                         <p>Average Holding Duration</p>
                         <p>Latest Trade</p>
                     </div>
-                    <div class="information-part-2">
-                        <p>Longs Won</p>
-                        <p>Shorts Won</p>
-                        <p>Best Trade</p>
-                        <p>Worst Trade</p>
-                        <p>Best Trade (Pips)</p>
-                        <p>Worst Trade (Pips)</p>
-                    </div>
-                    <div class="information-part-3">
-                        <p>Profit Factor</p>
-                        <p>Standard Deviation</p>
-                        <p>Sharpe Ratio</p>
-                    </div>
-                </div>
-                <div class="information-content-right" v-if="masterAccount">
-                    <!-- && openTrades.length > 0"  -->
-                    <div class="information-data-part-1">
+                    <div class="information-data-part-1" v-if="masterAccount">
                         <p>{{ totalTrades }}</p>
                         <p>941.83%</p>
                         <p>425.00</p>
@@ -113,6 +97,16 @@ const props = defineProps({
                         <p>1 day ago</p>
                         <!-- <p>{{ latestTradeDuration }}</p> -->
                     </div>
+                </div>
+                <div class="information-content-2">
+                    <div class="information-part-2">
+                        <p>Longs Won</p>
+                        <p>Shorts Won</p>
+                        <p>Best Trade</p>
+                        <p>Worst Trade</p>
+                        <p>Best Trade (Pips)</p>
+                        <p>Worst Trade (Pips)</p>
+                    </div>
                     <div class="information-data-part-2">
                         <p>81.00%</p>
                         <p>83.00%</p>
@@ -120,6 +114,13 @@ const props = defineProps({
                         <p>-$ 1,901.00</p>
                         <p>33,255.00</p>
                         <p>-189,445.80</p>
+                    </div>
+                </div>
+                <div class="information-content-3">
+                    <div class="information-part-3">
+                        <p>Profit Factor</p>
+                        <p>Standard Deviation</p>
+                        <p>Sharpe Ratio</p>
                     </div>
                     <div class="information-data-part-3" v-if="masterAccount">
                         <!-- <p>4.50</p> -->

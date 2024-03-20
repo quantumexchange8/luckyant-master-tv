@@ -22,6 +22,7 @@ const fetchData = async () => {
     try {
         const response = await axios.get(`https://www.myfxbook.com/api/get-my-accounts.json?session=4gcHQQj80BSwyYjywWCy3636342`);
         liveMasters.value = response.data.accounts;
+        masterAccount.value = liveMasters.value[0]
         console.log('Live Masters:', liveMasters.value);
     } catch (error) {
         console.error('Error fetching live data:', error);
@@ -41,6 +42,7 @@ onMounted(() => {
             <div id="box3" class="content-left">
                 <TraderDashboard
                     :liveMasters="liveMasters"
+                    :masterAccount="masterAccount"
                     @update:masterAccount="masterAccount = $event"
                 />
                 <div id="box5" class="content-left-right">
@@ -60,7 +62,9 @@ onMounted(() => {
                 <div id="box13">
                     <div id="box7">
                         <div id="box9-1">
-                            <Chart/>
+                            <Chart 
+                                :masterAccount="masterAccount"
+                            />
                             <div id="box9-2">
                                 <FinanceSummary/>
                                 <AssetAllocation/>
@@ -71,8 +75,8 @@ onMounted(() => {
                             <DailyPeriods/>
                         </div>
                     </div>
-                    <TradesHistory 
-                    :masterAccount="masterAccount" 
+                    <TradesHistory
+                        :masterAccount="masterAccount"
                      />
                 </div>
             </div>
