@@ -47,7 +47,7 @@ async function fetchData() {
         const response = await axios.get(`https://www.myfxbook.com/api/get-open-trades.json?session=4gcHQQj80BSwyYjywWCy3636342&id=${accountId.value}`);
         
         tradeHistories.value = response.data; // Set the metaLogin value upon successful login
-        console.log('Trade History: ', tradeHistories.value)
+        // console.log('Trade History: ', tradeHistories.value)
     } catch (error) {
         console.error('Error fetching open trade data:', error);
         console.log('Login Status: Failed');    

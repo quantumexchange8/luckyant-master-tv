@@ -460,6 +460,8 @@ background-color: red;
     margin-bottom: 8px;
     padding-right: 5px;
     cursor: default;
+    display: flex;
+    flex-direction: column;
 }
 
 .dashboard-name-border  {
@@ -504,7 +506,7 @@ background-color: red;
 
 .shadow-container {
     width: 100px;
-    height: 118px;
+    height: 100px;
     /* Add drop shadow */
     filter: drop-shadow(1px 1px 3px #083549); /* Adjust the values for your desired shadow */
   }

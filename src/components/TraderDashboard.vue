@@ -71,7 +71,7 @@ function applyColorToTotalGrowth() {
                     <div class="trader-dashboard-img-1">
                         <div class="shadow-container">
                             <div class="hexagon-border">
-                                <img src="/src/assets/dashboard/icon-trans.png" alt="">
+                                <img src="/src/assets/dashboard/master-icon.png" alt="">
                             </div>
                         </div>
                     </div>

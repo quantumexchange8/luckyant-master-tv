@@ -1,9 +1,43 @@
 <script setup>
+// Importing necessary Vue.js features
+import { ref, watch } from 'vue';
 
-import { onMounted } from 'vue';
+// Defining props for the component
+const props = defineProps({
+  masterAccount: Object // Assuming masterAccount is an object
+});
 
-// Function to calculate responsive font size
+// Declaring reactive variables to store master account data
+const masterAccountData = ref(props.masterAccount);
+const masterBalance = ref();
+const masterEquity = ref();
+const masterWithdrawals = ref();
+const masterDeposits = ref();
+const masterProfit = ref();
+
+// Watching for changes in the masterAccount prop
+watch(() => props.masterAccount, (newValue, oldValue) => {
+    // Update master account data variables
+    masterAccountData.value = newValue;
+    masterBalance.value = newValue.balance;
+    masterEquity.value = newValue.equity;
+    masterWithdrawals.value = newValue.withdrawals;
+    masterDeposits.value = newValue.deposits;
+    masterProfit.value = newValue.profit;
+
+    // Create or update radar chart based on the master account data
+    createOrUpdateRadarChart();
+  
+    // Add event listener for window resize to handle responsive font size
+    window.addEventListener('resize', () => {
+        // Recreate or update radar chart on window resize to adjust font size
+        createOrUpdateRadarChart();
+    });
+});
+
+// Function to calculate responsive font size for radar chart labels
 function responsiveFonts() {
+  // Adjust font size based on window dimensions
   if (window.matchMedia('(min-width: 3768px) and (min-height: 1769px) and (max-height: 1769px)').matches) {
       return 18; // Font size 18px for the new media query
   } else if (window.matchMedia('(min-width: 3768px) and (min-height: 1831px)').matches) {
@@ -23,80 +57,94 @@ function responsiveFonts() {
   }
 }
 
-// Function to create radar chart
-function createRadarChart() {
+// Function to create or update radar chart based on master account data
+function createOrUpdateRadarChart() {
+  // Retrieve radar chart canvas element
   const radarCtx = document.getElementById('radarChart');
   
-  // Create the radar chart and store it in a variable
-  const radarChart = new Chart(radarCtx, {
-    type: 'radar',
-    data: {
-        labels: ["Balance: $55,680.16", "Equity: $55,680.16", "Withdrawal: $125,364.50", "Deposit: $50,000.00", "Profit: $124,823.68"],
+  // Create or retrieve existing radar chart instance
+  let radarChart = Chart.getChart(radarCtx);
+
+  // If radar chart doesn't exist, create a new one
+  if (!radarChart) {
+    radarChart = new Chart(radarCtx, {
+      type: 'radar',
+      data: {
+        labels: [`Balance: $ ${masterBalance.value}`, `Equity: $ ${masterEquity.value}`, `Withdrawal: $ ${masterWithdrawals.value}`, `Deposit: $ ${masterDeposits.value}`, `Profit: $ ${masterProfit.value}`],
         datasets: [{
-            label: 'Amounts',
-            data: [42.83, 42.83, 96.43, 38.46, 96.02],
-            borderWidth: 1,
-            pointStyle: 'circle', // Set point style to circle
-            pointRadius: 3 // Set point radius
+          label: '$',
+          data: [
+            masterBalance.value,
+            masterEquity.value,
+            masterWithdrawals.value,
+            masterDeposits.value,
+            masterProfit.value
+          ],
+          borderWidth: 1,
+          pointStyle: 'circle',
+          pointRadius: 3
         }]
-    },
-    options: {
-      maintainAspectRatio: false,
+      },
+      options: {
+        maintainAspectRatio: false,
         scales: {
-            y: {
-                display: false,
-                suggestedMin: 0,
-                suggestedMax: 100
+          y: {
+            display: false,
+            suggestedMin: 0, //0
+            suggestedMax: 100,  //100
+          },
+          r: {
+            angleLines: {
+              color: '#475569' //#475569
             },
-            r: {
-                angleLines: {
-                    color: '#475569'
-                },
-                grid: {
-                    color: '#475569'
-                },
-                display: true,
-                suggestedMin: 40,
-                suggestedMax: 100,
-                pointLabels: {
-                    font: {
-                        size: responsiveFonts() // Set the font size based on window width
-                    },
-                    color: 'white',
-                },
-                ticks: {
-                    display: false
-                }
+            grid: {
+              color: '#475569'
+            },
+            display: true,
+            suggestedMin: 0, //40
+            suggestedMax: 100, //100
+            pointLabels: {
+              font: {
+                size: responsiveFonts()
+              },
+              color: 'white'
+            },
+            ticks: {
+              display: false
             }
+          }
         },
         plugins: {
-            legend: {
-                display: false
-            }
-        },
-        layout: {
-            //padding: 10 // Adjust padding if needed
+          legend: {
+            display: false
+          }
         },
         elements: {
-            line: {
-                borderWidth: 2 // Adjust line width if needed
-            }
+          line: {
+            borderWidth: 2
+          }
         }
-    }
-  });
+      }
+    });
+  } else {
+    // If radar chart exists, update its data
+    radarChart.data.labels = [
+      `Balance: $ ${masterBalance.value}`,
+      `Equity: $ ${masterEquity.value}`,
+      `Withdrawal: $ ${masterWithdrawals.value}`,
+      `Deposit: $ ${masterDeposits.value}`,
+      `Profit: $ ${masterProfit.value}`
+    ];
+    radarChart.data.datasets[0].data = [
+      masterBalance.value,
+      masterEquity.value,
+      masterWithdrawals.value,
+      masterDeposits.value,
+      masterProfit.value
+    ];
+    radarChart.update(); // Update the chart
+  }
 }
-
-// Call createRadarChart function when the component is mounted
-onMounted(() => {
-  createRadarChart();
-  
-  // Add event listener for window resize
-  window.addEventListener('resize', () => {
-    // Recreate radar chart on window resize to update font size
-    createRadarChart();
-  });
-});
-
 </script>
 
 <template>

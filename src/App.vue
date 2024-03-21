@@ -66,7 +66,9 @@ onMounted(() => {
                                 :masterAccount="masterAccount"
                             />
                             <div id="box9-2">
-                                <FinanceSummary/>
+                                <FinanceSummary
+                                    :masterAccount="masterAccount"
+                                />
                                 <AssetAllocation/>
                             </div>
                         </div>

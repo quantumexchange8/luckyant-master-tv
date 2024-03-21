@@ -2,6 +2,15 @@
 
 import { onMounted } from 'vue';
 
+// const props = defineProps({
+//     masterAccount: Object
+// });
+
+// // Declaring reactive variables to store master account data
+// const masterAccountData = ref(props.masterAccount);
+
+
+
 // Function to calculate responsive font size
 function responsiveFonts() {
   if (window.matchMedia('(min-width: 3768px) and (min-height: 1769px) and (max-height: 1769px)').matches) {
