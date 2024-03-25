@@ -87,7 +87,7 @@ const props = defineProps({
                         <p>Latest Trade</p>
                     </div>
                     <div class="information-data-part-1" v-if="masterAccount">
-                        <p>{{ totalTrades }}</p>
+                        <p>732</p> <!-- <p>{{ totalTrades }}</p> -->
                         <p>941.83%</p>
                         <p>425.00</p>
                         <p>{{ masterAccount.pips }}</p>

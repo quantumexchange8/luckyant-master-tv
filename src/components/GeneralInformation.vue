@@ -1,4 +1,7 @@
 <script setup>
+
+// import { ref, onMounted, watch } from 'vue';
+
 const props = defineProps({
     masterAccount: Object
 })
@@ -16,6 +19,12 @@ const daysSinceFirstTrade = (dateString) => {
     const differenceInTime = now.getTime() - date.getTime();
     return Math.floor(differenceInTime / (1000 * 3600 * 24));
 };
+
+// watch(() => props.masterAccount, (newMasterAccount) => {
+//     if (newMasterAccount) {
+//         console.log('Master Account ID:', newMasterAccount.id);
+//     }
+// });
 
 </script>
 

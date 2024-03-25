@@ -23,7 +23,7 @@ const fetchData = async () => {
         const response = await axios.get(`https://www.myfxbook.com/api/get-my-accounts.json?session=4gcHQQj80BSwyYjywWCy3636342`);
         liveMasters.value = response.data.accounts;
         masterAccount.value = liveMasters.value[0]
-        console.log('Live Masters:', liveMasters.value);
+        // console.log('Live Masters:', liveMasters.value);
     } catch (error) {
         console.error('Error fetching live data:', error);
     }
@@ -31,6 +31,8 @@ const fetchData = async () => {
 
 onMounted(() => {
     fetchData(); // Fetch data when the component is mounted
+    // Fetch data every second
+    // setInterval(fetchData, 1000);
 });
 
 </script>
