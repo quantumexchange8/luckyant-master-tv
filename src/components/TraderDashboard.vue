@@ -90,7 +90,7 @@ function applyColorToTotalGrowth() {
                         </div>
                         <div class="bar-chart-data">
                             <div class="bar-chart">
-                                <div id="bar-chart-container">
+                                <div class="bar-chart-container">
                                     <img id="svg-img" src="/src/assets/svg/barchart.svg" alt="">
                                 </div>
                             </div>

@@ -457,7 +457,7 @@ background-color: red;
 .pamm-master-box {
     height: 150px;
     width: 320px;
-    margin-bottom: 8px;
+    /* margin-bottom: 8px; */
     padding-right: 5px;
     cursor: default;
     display: flex;
@@ -470,7 +470,7 @@ background-color: red;
     /* padding-top: 8px; */
     /* margin-bottom: 5px; */
     width: auto;
-    height: 38px;
+    height: 30%;
     position: relative; /* Add position relative to make the pseudo-element position relative to this */
     display: flex;
     align-items: center;
@@ -496,17 +496,21 @@ background-color: red;
     flex-direction: row;
     /* flex-grow: 1; */
     width: 100%;
-    height: 90%;
+    height: 70%;
     /* margin-top: 14px; */
 }
 
 .trader-dashboard-img-1 {
     width: 35%;
+    display: flex;
+    justify-content: center;
+    /* flex-direction: column; */
+    flex-direction: row;
 }
 
 .shadow-container {
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
     /* Add drop shadow */
     filter: drop-shadow(1px 1px 3px #083549); /* Adjust the values for your desired shadow */
   }
@@ -564,7 +568,7 @@ background-color: red;
     flex-direction: column;
     /* flex-grow: 1; */
     width: 65%;
-    height: 100px;
+    /* height: 100px; */
     font-size: 13px;
     font-weight: 500;
     margin-left: 5px;
@@ -574,18 +578,18 @@ background-color: red;
     display: flex;
     flex-direction: row;
     /* flex-grow: 6; */
-    height: 65px;
+    height: 60%;
     align-items: center;
 }
 
 .bar-chart-data {
     /* flex-grow: 4; */
-    height: 45px;
+    height: 40%;
     gap: 8px;
     /* width: 201px; */
     display: flex;
     flex-direction: row;
-    margin-bottom: 5px;
+    /* margin-bottom: 5px; */
 }
 
 .bar-chart {
@@ -593,12 +597,18 @@ background-color: red;
     flex-direction: row;
     justify-content: left;
     /* width: 6.5vw; */
-    height: 4.5vh;
+    /* height: 4.5vh; */
     /* margin-right: 5px; */
     /* width: 500px; */
     /* height: 50px; */
     /* flex-grow: 8; */
     /* padding-left: 10px; */
+}
+
+.bar-chart-container {
+    width: 128px;
+    /* height: 150px; */
+    resize: both;
 }
 
 .bar-chart-profitability {
@@ -1282,7 +1292,7 @@ background-color: red;
 
 .bar-chart-3D {
     /* height: 400px; */
-    height: 34vh;
+    height: 32.3vh;
     /* border: solid 2px red; */
 }
 

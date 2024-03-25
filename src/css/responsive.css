@@ -174,7 +174,7 @@
     }
 
     .trader-dashboard-content {
-        height: 85%;
+        height: 70%;
     }
 
     /* .shadow-container {
@@ -257,8 +257,23 @@
 /* Media query for viewport width 1920px and height 1080px */
 @media (min-width: 1920px) and (min-height: 1080px) {
     /* Your existing CSS rules */
+    .bar-chart-container {
+        width: 120px;
+        /* height: 150px; */
+        resize: both;
+    }
+
+    #svg-img {
+        width: 120px;
+        /* height: 50px; */
+    }
+
+    .dashboard-name-border {
+        height: 30%;
+    }
+
     .bar-chart-3D {
-        height: 37.5vh; /* Set the height to 37.5vh */
+        height: 32vh;
     }
 
     .information-part-1 p, .information-part-2 p, .information-part-3 p {
