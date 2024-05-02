@@ -57,10 +57,11 @@ function applyColorToTotalGrowth() {
             :key="index"
             class="trader-dashboard-frame"
             :class="{ 'clicked': user === master || user === masterAccount}"
+            @click="getMaster(user)"
+
         >
             <div
                 class="pamm-master-box"
-                @click="getMaster(user)"
             >
                 <div class="dashboard-name-border">
                     <div class="dashboard-name">
@@ -80,12 +81,12 @@ function applyColorToTotalGrowth() {
                             <div class="trader-dashboard-content-right">
                                 <div class="trader-dashboard-content-right-name">
                                     <p>Balance</p>
-<!--                                    <p>Investors</p>-->
+                                   <!-- <p>Investors</p> -->
                                 </div>
                             </div>
                             <div class="trader-dashboard-content-right-data">
                                 <p>$ {{ user.balance }} </p>
-<!--                                <p>{{ user.subscriber }}</p>-->
+                               <!-- <p>{{ user.subscriber }}</p> -->
                             </div>
                         </div>
                         <div class="bar-chart-data">
@@ -96,7 +97,7 @@ function applyColorToTotalGrowth() {
                             </div>
                             <div class="bar-chart-profitability">
                                 <p>Profitability</p>
-                                <p class="font-green-color">96.83%</p>
+                                <p class="font-green-color">{{ user.profitability }}%</p>
                             </div>
                         </div>
                     </div>

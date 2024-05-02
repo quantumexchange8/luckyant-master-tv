@@ -20,8 +20,8 @@ const masterAccount = ref();
 
 const fetchData = async () => {
     try {
-        const response = await axios.get(`https://www.myfxbook.com/api/get-my-accounts.json?session=4gcHQQj80BSwyYjywWCy3636342`);
-        liveMasters.value = response.data.accounts;
+        const response = await axios.get(`http://127.0.0.1:8000/api/getLiveAccount`);
+        liveMasters.value = response.data.metaUser;
         masterAccount.value = liveMasters.value[0]
         // console.log('Live Masters:', liveMasters.value);
     } catch (error) {
@@ -52,12 +52,8 @@ onMounted(() => {
                         :masterAccount="masterAccount"
                     />
                     <TradesStatistics 
-                    :masterAccount="masterAccount" 
+                        :masterAccount="masterAccount" 
                     />
-                    <!-- <TradesStatistics 
-                    :masterAccount="masterAccount" 
-                    :accountId="accountId" 
-                    /> -->
                 </div>
             </div>
             <div id="box6" class="content-right">
@@ -71,12 +67,16 @@ onMounted(() => {
                                 <FinanceSummary
                                     :masterAccount="masterAccount"
                                 />
-                                <AssetAllocation/>
+                                <AssetAllocation
+                                    :masterAccount="masterAccount"
+                                />
                             </div>
                         </div>
                         <div id="box10">
                             <ForexMarket/>
-                            <DailyPeriods/>
+                            <DailyPeriods
+                                :masterAccount="masterAccount"
+                            />
                         </div>
                     </div>
                     <TradesHistory

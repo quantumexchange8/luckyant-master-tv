@@ -1,60 +1,17 @@
 <script setup>
 
-import axios from "axios";
-// import { onMounted, ref, defineProps } from "vue";
-
-// const metaInformation = ref(null); // Data from the first API
-// const openTrades = ref([]); // Data from the second API
-// const accountData = ref([]); // Data from the second API
-// const totalTrades = ref(0);
-// const durationInMinutes = ref([]);
-// const session = ref(''); // Your session value here
-// const email = ref('official@luckyantfxasia.com');
-// const password = ref('72l3SGK=f;8V'); // Your original password
-
 const props = defineProps({
     masterAccount: Object
 })
 
+const formatTradeDate = (dateString) => {
+    const tradeTimestamp = Date.parse(dateString);
+    const todayTimestamp = Date.now();
+    const millisecondsPerDay = 1000 * 60 * 60 * 24;
+    const durationDays = Math.floor((todayTimestamp - tradeTimestamp) / millisecondsPerDay);
 
-// const props = defineProps({
-//   selectedAccountId: Number // Change the prop type to Number
-// });
-
-// const fetchAccountData = async () => {
-//     try {
-//         const response = await axios.get(`https://www.myfxbook.com/api/get-my-accounts.json?session=4gcHQQj80BSwyYjywWCy3636342&id=${props.accountId}`);
-//         accountData.value = response.data.accounts[0];
-//     } catch (error) {
-//         console.error('Error fetching account data:', error);
-//     }
-// }
-
-
-// this how to get the data? different api
-// const fetchOpenTrades = async () => {
-//     try {
-//         const response = await axios.get(`https://www.myfxbook.com/api/get-open-trades.json?session=4gcHQQj80BSwyYjywWCy3636342&id=${props.accountId}`);
-//         openTrades.value = response.data.openTrades;
-//     } catch (error) {
-//         console.error('Error fetching open trades:', error);
-//     }
-// };
-
-// const fetchData = async () => {
-//     try {
-//         const response = await axios.get(`https://www.myfxbook.com/api/get-my-accounts.json?session=4gcHQQj80BSwyYjywWCy3636342&id=${props.accountId}`);
-//         metaInformation.value = response.data.accounts[0];
-//     } catch (error) {
-//         console.error('Error fetching live data:', error);
-//     }
-// }
-
-// onMounted(async () => {
-//     // await fetchData(); // Fetch data when the component is mounted
-//     await fetchOpenTrades(); // Fetch open trades data after fetching account data
-//     // await fetchAccountData();
-// });
+    return durationDays;
+};
 
 </script>
 
@@ -80,22 +37,19 @@ const props = defineProps({
                         <p>Total Trades</p>
                         <p>Profitability</p>
                         <p>Lots</p>
-                        <p>Pips</p>
                         <p>Average Profit</p>
                         <p>Average Loss</p>
-                        <p>Average Holding Duration</p>
+                        <p>Last 30 Days Total Trade</p>
                         <p>Latest Trade</p>
                     </div>
                     <div class="information-data-part-1" v-if="masterAccount">
-                        <p>732</p> <!-- <p>{{ totalTrades }}</p> -->
-                        <p>941.83%</p>
-                        <p>425.00</p>
-                        <p>{{ masterAccount.pips }}</p>
-                        <p>$ 263.09</p>
-                        <p>-$ 292.29</p>
-                        <p>2h 17m</p>
-                        <p>1 day ago</p>
-                        <!-- <p>{{ latestTradeDuration }}</p> -->
+                        <p>{{ masterAccount.totalTrade }}</p>
+                        <p>{{ masterAccount.profitability }}</p>
+                        <p>{{ masterAccount.totalLot }}</p>
+                        <p>$ {{ masterAccount.averageProfit }}</p>
+                        <p>$ {{ masterAccount.averageLoss }}</p>
+                        <p>{{ masterAccount.totalTradesLast30Days }}</p>
+                        <p>{{ formatTradeDate(masterAccount.latestTrade) }} days ago</p>
                     </div>
                 </div>
                 <div class="information-content-2">
@@ -104,16 +58,16 @@ const props = defineProps({
                         <p>Shorts Won</p>
                         <p>Best Trade</p>
                         <p>Worst Trade</p>
-                        <p>Best Trade (Pips)</p>
-                        <p>Worst Trade (Pips)</p>
+                        <p>Total Longs Trade</p>
+                        <p>Total Shorts Trade</p>
                     </div>
-                    <div class="information-data-part-2">
-                        <p>81.00%</p>
-                        <p>83.00%</p>
-                        <p>$ 4,071.00</p>
-                        <p>-$ 1,901.00</p>
-                        <p>33,255.00</p>
-                        <p>-189,445.80</p>
+                    <div class="information-data-part-2" v-if="masterAccount">
+                        <p>{{ '(' + masterAccount.longsWon + '/' +masterAccount.totalLongsTrade + ')' + ' ' + masterAccount.longsWonPercentage }} %</p>
+                        <p>{{ '(' + masterAccount.shortsWon + '/' +masterAccount.totalShortsTrade + ')' + ' ' + masterAccount.shortsWonPercentage }} %</p>
+                        <p>$ {{ masterAccount.bestTrade }}</p>
+                        <p>$ {{ masterAccount.worstTrade }}</p>
+                        <p>{{ masterAccount.totalLongsTrade }}</p>
+                        <p>{{ masterAccount.totalShortsTrade }}</p>
                     </div>
                 </div>
                 <div class="information-content-3">
@@ -123,9 +77,8 @@ const props = defineProps({
                         <p>Sharpe Ratio</p>
                     </div>
                     <div class="information-data-part-3" v-if="masterAccount">
-                        <!-- <p>4.50</p> -->
                         <p>{{ masterAccount.profitFactor }}</p>
-                        <p>$ 523.98</p>
+                        <p>$ {{ masterAccount.standardDeviation }}</p>
                         <p>0.33</p>
                     </div>
                 </div>

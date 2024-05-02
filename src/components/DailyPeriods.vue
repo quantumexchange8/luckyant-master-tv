@@ -1,6 +1,35 @@
 <script setup>
 
-import { onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
+import axios from 'axios';
+import Chart from 'chart.js/auto';
+
+const props = defineProps({
+    masterAccount: Object
+})
+const dates = ref([]);
+const longTrades = ref([]);
+const shortTrades = ref();
+const master_meta_login = ref();
+
+const fetchData = async () => {
+    try {
+        const response = await axios.get(`http://127.0.0.1:8000/api/getMasterLatestTrades?meta_login=${master_meta_login.value}`);
+        dates.value = response.data.dates
+        longTrades.value = response.data.longTrades;
+        shortTrades.value = response.data.shortTrades;
+        // console.log('Live Masters:', shortTrades.value);
+    } catch (error) {
+        console.error('Error fetching live data:', error);
+    }
+}
+
+watch(() => props.masterAccount, (newMasterAccount) => {
+    if (newMasterAccount) {
+        master_meta_login.value = newMasterAccount.login; // Update master_meta_login with the new value
+        fetchData(); // Fetch data with the updated meta_login value
+    }
+});
 
 // Function to calculate responsive font size
 function responsiveFonts() {
@@ -51,10 +80,10 @@ function getShortTradesGradient(ctx, chartArea) {
 
 // Setup data
 const data = {
-    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+    labels: dates.value,
     datasets: [{
         label: 'Long Trades',
-        data: [88, 108, 90, 90, 100],
+        data: longTrades.value,
         backgroundColor: function(context) {
             const chart = context.chart;
             const { ctx, chartArea } = chart;
@@ -64,18 +93,9 @@ const data = {
             return getLongTradesGradient(ctx, chartArea);
         },
         borderWidth: 0,
-        datalabels: {
-            anchor: 'end',
-            align: 'top',
-            offset: 5,
-            font: {
-                size: responsiveFonts() // Set the font size based on window width
-            },
-            color: 'white'
-        }
     }, {
         label: 'Short Trades',
-        data: [92, 97, 94, 94, 90], // Different data for second dataset
+        data: shortTrades.value, // Different data for second dataset
         backgroundColor: function(context) {
             const chart = context.chart;
             const { ctx, chartArea } = chart;
@@ -85,15 +105,6 @@ const data = {
             return getShortTradesGradient(ctx, chartArea);
         },
         borderWidth: 0,
-        datalabels: {
-            anchor: 'end',
-            align: 'top',
-            offset: 5,
-            font: {
-                size: responsiveFonts() // Set the font size based on window width
-            },
-            color: 'white'
-        }
     }]
 };
 
@@ -101,7 +112,6 @@ const data = {
 const config = {
     type: 'bar',
     data: data,
-    plugins: [ChartDataLabels],
     options: {
         maintainAspectRatio: false,
         plugins: {
@@ -120,7 +130,8 @@ const config = {
             x: {
                 grid: {
                     drawOnChartArea: false,
-                    drawTicks: false
+                    drawTicks: false,
+                    borderColor: '#94A3B8',
                 },
                 border: {
                     color: '#94A3B8'
@@ -135,18 +146,28 @@ const config = {
                 grid: {
                     drawOnChartArea: false,
                     drawTicks: false,
+                    borderColor: '#94A3B8',
+                },
+                border: {
+                    color: '#94A3B8'
                 },
                 ticks: {
-                    display: false
+                    padding: 10, // Add padding to the ticks
+                    font: {
+                        size: responsiveFonts() // Set the font size based on window width
+                    }
                 }
-            }
+            },
         }
     }
 }
 
 // Call the responsiveFonts function after chart initialization
-onMounted(() => {
-    // Initialize chart
+onMounted(async () => {
+    // Fetch data initially
+    await fetchData();
+
+    // Initialize chart with initial data
     const multiBarChart = new Chart(
         document.getElementById('multiBarChart'),
         config
@@ -155,11 +176,17 @@ onMounted(() => {
     // Update font size for legend and x-axis ticks
     multiBarChart.options.plugins.legend.labels.font.size = responsiveFonts();
     multiBarChart.options.scales.x.ticks.font.size = responsiveFonts();
+});
 
-    // Update font size for data labels in each dataset
-    multiBarChart.data.datasets.forEach(dataset => {
-        dataset.datalabels.font.size = responsiveFonts();
-    });
+// Watch for changes in data and update the chart accordingly
+watch([longTrades, shortTrades], () => {
+    const multiBarChart = Chart.getChart('multiBarChart');
+    if (multiBarChart) {
+        multiBarChart.data.labels = dates.value;
+        multiBarChart.data.datasets[0].data = longTrades.value;
+        multiBarChart.data.datasets[1].data = shortTrades.value;
+        multiBarChart.update();
+    }
 });
 
 // Call the responsiveFonts function after window resize
@@ -170,11 +197,6 @@ window.addEventListener('resize', function() {
     // Update font size for legend and x-axis ticks
     multiBarChart.options.plugins.legend.labels.font.size = fontSize;
     multiBarChart.options.scales.x.ticks.font.size = fontSize;
-
-    // Update font size for data labels in each dataset
-    multiBarChart.data.datasets.forEach(dataset => {
-        dataset.datalabels.font.size = fontSize;
-    });
 
     multiBarChart.update();
 });
@@ -196,7 +218,7 @@ responsiveFonts();
                 </div>
             </div>
             <div class="title-name">
-                <h3>Daily Longs vs. Shorts</h3>
+                <h3>Latest Longs vs. Shorts</h3>
             </div>
         </div>
         <div class="trader-dashboard-frame" >

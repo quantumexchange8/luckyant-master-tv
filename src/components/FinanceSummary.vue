@@ -1,6 +1,7 @@
 <script setup>
 // Importing necessary Vue.js features
 import { ref, watch } from 'vue';
+import Chart from 'chart.js/auto';
 
 // Defining props for the component
 const props = defineProps({
@@ -72,7 +73,6 @@ function createOrUpdateRadarChart() {
       data: {
         labels: [`Balance: $ ${masterBalance.value}`, `Equity: $ ${masterEquity.value}`, `Withdrawal: $ ${masterWithdrawals.value}`, `Deposit: $ ${masterDeposits.value}`, `Profit: $ ${masterProfit.value}`],
         datasets: [{
-          label: '$',
           data: [
             masterBalance.value,
             masterEquity.value,
@@ -81,8 +81,8 @@ function createOrUpdateRadarChart() {
             masterProfit.value
           ],
           borderWidth: 1,
-          pointStyle: 'circle',
-          pointRadius: 3
+          borderColor: 'rgba(56, 189, 248, 1)',
+          backgroundColor: 'rgba(56, 189, 248, 0.2)',
         }]
       },
       options: {
@@ -90,19 +90,19 @@ function createOrUpdateRadarChart() {
         scales: {
           y: {
             display: false,
-            suggestedMin: 0, //0
-            suggestedMax: 100,  //100
+            suggestedMin: 0,
+            suggestedMax: 100,
           },
           r: {
             angleLines: {
-              color: '#475569' //#475569
+              color: '#475569'
             },
             grid: {
               color: '#475569'
             },
             display: true,
-            suggestedMin: 0, //40
-            suggestedMax: 100, //100
+            suggestedMin: 0,
+            suggestedMax: 100,
             pointLabels: {
               font: {
                 size: responsiveFonts()
@@ -111,8 +111,8 @@ function createOrUpdateRadarChart() {
             },
             ticks: {
               display: false
-            }
-          }
+            },
+          },
         },
         plugins: {
           legend: {

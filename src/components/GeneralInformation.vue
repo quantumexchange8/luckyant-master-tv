@@ -56,7 +56,7 @@ const daysSinceFirstTrade = (dateString) => {
                     </div>
                     <div class="information-data-part-1"  v-if="masterAccount">
                         <p>$ {{ masterAccount.profit }}</p>
-                        <p>$ {{ masterAccount.equity - masterAccount.balance }}</p>
+                        <p>$ {{ masterAccount.floating }}</p>
                         <p>$ {{ masterAccount.equity }}</p>
                         <p>$ {{ masterAccount.balance }}</p>
                         <p>$ {{ masterAccount.deposits }}</p>
@@ -71,9 +71,19 @@ const daysSinceFirstTrade = (dateString) => {
                         <p>Current Drawdown</p>
                         <p>Max. Drawdown</p>
                     </div>
-                    <div class="information-data-part-2">
-                        <p class="font-green-color">+941.83%</p>
-                        <p class="font-green-color">+10.36%</p>
+                    <div class="information-data-part-2" v-if="masterAccount">
+                        <p :class="{
+                            'font-green-color': masterAccount.totalGrowth > 0,
+                            'font-red-color': masterAccount.totalGrowth < 0
+                        }">
+                            {{ masterAccount.totalGrowth !== 0 ? (masterAccount.totalGrowth > 0 ? '+' + masterAccount.totalGrowth : masterAccount.totalGrowth) : masterAccount.totalGrowth }}%
+                        </p>
+                        <p :class="{
+                            'font-green-color': masterAccount.currentMonthGrowth > 0,
+                            'font-red-color': masterAccount.currentMonthGrowth < 0
+                        }">
+                            {{ masterAccount.currentMonthGrowth !== 0 ? (masterAccount.currentMonthGrowth > 0 ? '+' + masterAccount.currentMonthGrowth : masterAccount.currentMonthGrowth) : masterAccount.currentMonthGrowth }}%
+                        </p>
                         <p class="font-green-color">+0.75%</p>
                         <p>0.07%</p>
                         <p>7.13%</p>
@@ -89,10 +99,10 @@ const daysSinceFirstTrade = (dateString) => {
                         <!--<p>Latest Activity</p>-->
                     </div>
                     <div class="information-data-part-3"  v-if="masterAccount">
-                        <p>1:500</p>
+                        <p>1:{{masterAccount.marginLeverage}}</p>
                         <p>40%</p>
-                        <p>{{ metaInformationDate(masterAccount.firstTradeDate) }}</p>
-                        <p>{{ daysSinceFirstTrade (masterAccount.firstTradeDate) }} Days</p>
+                        <p>{{ metaInformationDate(masterAccount.startDate) }}</p>
+                        <p>{{ daysSinceFirstTrade (masterAccount.startDate) }} Days</p>
                     </div>
                 </div>
             </div>

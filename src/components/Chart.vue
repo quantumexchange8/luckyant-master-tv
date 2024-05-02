@@ -1,163 +1,178 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, defineProps } from 'vue';
 import axios from 'axios';
+import Chart from 'chart.js/auto';
 
 // Function to calculate responsive font size
 function responsiveFonts() {
   // Your responsive font size logic here
 }
 
+const props = defineProps({
+    masterAccount: Object
+})
+const dates = ref([]);
+const growth = ref([]);
+const master_meta_login = ref();
+let lineChart = null;
+
+const fetchData = async () => {
+    try {
+        const response = await axios.get(`http://127.0.0.1:8000/api/getMasterGrowth?meta_login=${master_meta_login.value}`);
+        dates.value = response.data.interval_dates;
+        growth.value = response.data.trade_profit_pct;
+    } catch (error) {
+        console.error('Error fetching live data:', error);
+    }
+};
+
+watch(() => props.masterAccount, (newMasterAccount) => {
+    if (newMasterAccount) {
+        master_meta_login.value = newMasterAccount.login;
+        fetchData();
+    }
+});
+
 // Function to create chart configuration
-function createChartConfig(ctx, data, fontSize, dateStrings) {
-  return {
-      type: 'line',
-      data: {
-          labels: dateStrings,
-          datasets: data.datasets
-      },
-      options: {
-        maintainAspectRatio: false,
-          // Your chart options here
-          plugins: {
-              legend: {
-                  display: false // Remove the legend
-              }
-          },
-          scales: {
-              x: {
-                  grid: {
-                      drawOnChartArea: false,
-                      drawTicks: false
-                  },
-                  border: {
-                      color: '#94A3B8'
-                  },
-                  ticks: {
-                      autoSkip: false,
-                      maxRotation: 30,
-                      minRotation: 30,
-                      font: {
-                          size: fontSize
-                      }
-                  }
-              },
-              y: {
-                  beginAtZero: true,
-                  border: {
-                      dash: [1, 4]
-                  },
-                  grid: {
-                      color: '#94A3B8',
-                  },
-                  min: 0, // Set the minimum value of the y-axis
-                  max: 1000, // Set the maximum value of the y-axis
-                  ticks: {
-                      callback: function (value, index, values) {
-                          return value + '%'; // Add '%' to the tick labels
-                      },
-                      stepSize: 100, // Set the step size of the y-axis
-                      font: {
-                          size: fontSize
-                      }
-                  }
-              }
-          }
-      }
-  };
+function createChartConfig(ctx, data, fontSize, dates) {
+    return {
+        type: 'line',
+        data: {
+            labels: dates.value,
+            datasets: data.datasets.map(dataset => ({
+                ...dataset,
+                borderColor: 'rgba(56, 189, 248, 1)',
+                backgroundColor: 'rgba(56, 189, 248, 0.2)',
+            }))
+        },
+        options: {
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                x: {
+                    grid: {
+                        drawOnChartArea: false,
+                        drawTicks: false
+                    },
+                    border: {
+                        color: '#94A3B8'
+                    },
+                    ticks: {
+                        autoSkip: false,
+                        maxRotation: 30,
+                        minRotation: 30,
+                        font: {
+                            size: fontSize
+                        }
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    border: {
+                        dash: [1, 4]
+                    },
+                    grid: {
+                        color: '#94A3B8',
+                    },
+                    min: 0,
+                    max: 1000,
+                    ticks: {
+                        callback: function (value, index, values) {
+                            return value + '%';
+                        },
+                        stepSize: 100,
+                        font: {
+                            size: fontSize
+                        }
+                    }
+                }
+            }
+        }
+    };
 }
 
 // Function to update font sizes in the chart
 function updateFontSizes(chart, fontSize) {
-  chart.options.scales.x.ticks.font.size = fontSize;
-  chart.options.scales.y.ticks.font.size = fontSize;
-  chart.update();
+    chart.options.scales.x.ticks.font.size = fontSize;
+    chart.options.scales.y.ticks.font.size = fontSize;
+    chart.update();
 }
 
 // Function to initialize chart
 function initChart(chartId, config) {
-  return new Chart(chartId, config);
+    if (lineChart) {
+        lineChart.destroy(); // Destroy the existing chart if it exists
+    }
+    return new Chart(chartId, config);
 }
 
 // Call the responsiveFonts function after chart initialization
-onMounted(() => {
-  const fontSize = responsiveFonts();
-  const chartContext = document.getElementById('lineChart');
+watch(dates, () => {
+    if (dates.value.length > 0) {
+        const fontSize = responsiveFonts();
+        const chartContext = document.getElementById('lineChart');
 
-  const dateStrings = [
-    '2022-02-18', '2022-05-12', '2022-08-03', '2022-11-22', '2023-04-04',
-    '2023-06-27', '2023-07-27', '2023-12-04', '2024-02-02',
-    '2024-03-11', 
-  ];
+        const lineChartData = {
+            labels: dates.value,
+            datasets: [{
+                label: 'Line Chart Data',
+                data: growth.value, // Use the fetched data here
+                borderWidth: 2,
+                fill: true,
+                pointRadius: 0
+            }]
+        };
 
-  const lineChartData = {
-    labels: dateStrings,
-    datasets: [{
-        label: 'Line Chart Data',
-        data: [0, 34.13, 89.86, 181.29, 317.02, 404.97, 470.88, 670.99, 753.28, 934.06],
-        borderWidth: 2,
-        fill: true,
-        pointRadius: 0
-    }]
-  };
+        lineChart = initChart(
+            chartContext,
+            createChartConfig(chartContext, lineChartData, fontSize, dates)
+        );
+        updateFontSizes(lineChart, fontSize);
+    }
+});
 
-  const lineChart = initChart(
-      chartContext,
-      createChartConfig(chartContext, lineChartData, fontSize, dateStrings)
-  );
-  updateFontSizes(lineChart, fontSize);
+watch(growth, (newGrowth) => {
+    if (newGrowth && newGrowth.length > 0) {
+        const maxGrowth = Math.max(...newGrowth); // Find the maximum growth value
+        const minGrowth = Math.min(...newGrowth); // Find the minimum growth value
+        let maxTick, minTick;
 
-// Initial call to responsiveFonts function
-responsiveFonts();
+        if (maxGrowth >= 0 && minGrowth >= 0) {
+            // All positive growth values
+            maxTick = Math.ceil(maxGrowth / 100) * 100;
+            minTick = 0;
+        } else if (maxGrowth <= 0 && minGrowth <= 0) {
+            // All negative growth values
+            maxTick = 0;
+            minTick = Math.floor(minGrowth / 100) * 100;
+        } else {
+            // Mixed positive and negative growth values
+            maxTick = Math.ceil(Math.max(Math.abs(maxGrowth), Math.abs(minGrowth)) / 100) * 100;
+            minTick = -maxTick;
+        }
+
+        const yAxes = lineChart.options.scales.y;
+
+        // Update y-axis configuration
+        yAxes.max = maxTick;
+        yAxes.min = minTick;
+        yAxes.ticks.stepSize = Math.abs(maxTick - minTick) / 10; // Adjust step size if needed
+
+        lineChart.update(); // Update the chart
+    }
 });
 
 // Call the responsiveFonts function after window resize
 window.addEventListener('resize', function() {
-  const fontSize = responsiveFonts();
-  const lineChart = Chart.getChart('lineChart');
-  updateFontSizes(lineChart, fontSize);
+    const fontSize = responsiveFonts();
+    if (lineChart) {
+        updateFontSizes(lineChart, fontSize);
+    }
 });
-
-// // Initial call to responsiveFonts function
-// responsiveFonts();
-
-
-// const props = defineProps({
-//     masterAccount: Object
-// })
-
-// const areaChart = ref([])
-// const accountId = ref()
-
-// async function fetchData() {
-//     try {
-//         const response = await axios.get(`https://www.myfxbook.com/api/get-history.json?session=4gcHQQj80BSwyYjywWCy3636342&id=${accountId.value}`);
-        
-//         // Extracting closeTime dates and profit values and logging them
-//         const closeTimeDates = response.data.history.map(entry => {
-//             return entry.closeTime.split(' ')[0]; // Extracting only the date part
-//         });
-//         const profits = response.data.history.map(entry => entry.profit);
-        
-//         console.log('Close Time Dates: ', closeTimeDates);
-//         console.log('Profits: ', profits);
-
-//         // Set the areaChart value upon successful response
-//         areaChart.value = response.data;
-//     } catch (error) {
-//         console.error('Error fetching history:', error);
-//         console.log('Login Status: Failed');    
-//     }
-// }
-
-// watch(() => props.masterAccount, (newMasterAccount) => {
-//     if (props.masterAccount) {
-//         accountId.value = newMasterAccount.id
-//         fetchData();
-//     }
-// });
-
-
-
 </script>
 
 <template>
@@ -191,8 +206,7 @@ window.addEventListener('resize', function() {
             </div>
             
         
-            <!-- Second Label -->
-            <div class="label-shape clickable-shape"></div>
+            <!-- <div class="label-shape clickable-shape"></div>
             <div class="wrapper">
                 <div id="wrapper2" class="clickable-label-chart-rectangle-with-trapezoid-2">
                     <div class="clickable-label-chart-name">
@@ -201,7 +215,6 @@ window.addEventListener('resize', function() {
                 </div>
             </div>
             
-            <!-- Third Label -->
             <div class="label-shape clickable-shape"></div>
             <div class="wrapper">
                 <div id="wrapper3" class="clickable-label-chart-rectangle-with-trapezoid-3">
@@ -212,7 +225,6 @@ window.addEventListener('resize', function() {
             </div>
         </div>
         <div class="clickable-label-chart-part-2">
-            <!-- Forth Label -->
             <div class="label-shape clickable-shape"></div>
                 <div class="wrapper">
                     <div id="wrapper4" class="clickable-label-chart-rectangle-with-triangle-4">
@@ -221,7 +233,7 @@ window.addEventListener('resize', function() {
                         <p>Drawdown</p>
                         </div>
                     </div>
-                </div>
+                </div> -->
         </div>
         </div>
         <div class="line-chart">
