@@ -67,9 +67,9 @@ const daysSinceFirstTrade = (dateString) => {
                     <div class="information-part-2">
                         <p>Total Growth</p>
                         <p>Current Month Growth</p>
-                        <p>Max. Daily Growth</p>
+                        <!-- <p>Max. Daily Growth</p>
                         <p>Current Drawdown</p>
-                        <p>Max. Drawdown</p>
+                        <p>Max. Drawdown</p> -->
                     </div>
                     <div class="information-data-part-2" v-if="masterAccount">
                         <p :class="{
@@ -84,23 +84,23 @@ const daysSinceFirstTrade = (dateString) => {
                         }">
                             {{ masterAccount.currentMonthGrowth !== 0 ? (masterAccount.currentMonthGrowth > 0 ? '+' + masterAccount.currentMonthGrowth : masterAccount.currentMonthGrowth) : masterAccount.currentMonthGrowth }}%
                         </p>
-                        <p class="font-green-color">+0.75%</p>
+                        <!-- <p class="font-green-color">+0.75%</p>
                         <p>0.07%</p>
-                        <p>7.13%</p>
+                        <p>7.13%</p> -->
                     </div>
                 </div>
                 <div class="information-content-3">
                     <div class="information-part-3">
                         <!--<p>Investors</p>-->
                         <p>Leverage</p>
-                        <p>Performance Fee</p>
+                        <!-- <p>Performance Fee</p> -->
                         <p>Started Date</p>
                         <p>Active Days</p>
                         <!--<p>Latest Activity</p>-->
                     </div>
                     <div class="information-data-part-3"  v-if="masterAccount">
                         <p>1:{{masterAccount.marginLeverage}}</p>
-                        <p>40%</p>
+                        <!-- <p>40%</p> -->
                         <p>{{ metaInformationDate(masterAccount.startDate) }}</p>
                         <p>{{ daysSinceFirstTrade (masterAccount.startDate) }} Days</p>
                     </div>

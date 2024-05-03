@@ -74,12 +74,12 @@ const formatTradeDate = (dateString) => {
                     <div class="information-part-3">
                         <p>Profit Factor</p>
                         <p>Standard Deviation</p>
-                        <p>Sharpe Ratio</p>
+                        <!-- <p>Sharpe Ratio</p> -->
                     </div>
                     <div class="information-data-part-3" v-if="masterAccount">
                         <p>{{ masterAccount.profitFactor }}</p>
                         <p>$ {{ masterAccount.standardDeviation }}</p>
-                        <p>0.33</p>
+                        <!-- <p>0.33</p> -->
                     </div>
                 </div>
             </div>
