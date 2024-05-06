@@ -84,8 +84,11 @@ const daysSinceFirstTrade = (dateString) => {
                         }">
                             {{ masterAccount.currentMonthGrowth !== 0 ? (masterAccount.currentMonthGrowth > 0 ? '+' + masterAccount.currentMonthGrowth : masterAccount.currentMonthGrowth) : masterAccount.currentMonthGrowth }}%
                         </p>
-                        <p>
-                            {{ masterAccount.maxDailyGrowth !== 0 ? masterAccount.maxDailyGrowth : '-' }}%
+                        <p :class="{
+                            'font-green-color': masterAccount.maxDailyGrowth > 0,
+                            'font-red-color': masterAccount.maxDailyGrowth < 0
+                        }">
+                            {{ masterAccount.maxDailyGrowth !== 0 ? (masterAccount.maxDailyGrowth > 0 ? '+' + masterAccount.maxDailyGrowth : masterAccount.maxDailyGrowth) : masterAccount.maxDailyGrowth }}%
                         </p>
                         <!-- <p>0.07%</p>
                         <p>7.13%</p> -->
