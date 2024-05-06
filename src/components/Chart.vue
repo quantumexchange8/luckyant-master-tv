@@ -138,29 +138,22 @@ watch(dates, () => {
 watch(growth, (newGrowth) => {
     if (newGrowth && newGrowth.length > 0) {
         const maxGrowth = Math.max(...newGrowth); // Find the maximum growth value
-        const minGrowth = Math.min(...newGrowth); // Find the minimum growth value
-        let maxTick, minTick;
+        let maxTick;
 
-        if (maxGrowth >= 0 && minGrowth >= 0) {
+        if (maxGrowth >= 0) {
             // All positive growth values
             maxTick = Math.ceil(maxGrowth / 100) * 100;
-            minTick = 0;
-        } else if (maxGrowth <= 0 && minGrowth <= 0) {
-            // All negative growth values
-            maxTick = 0;
-            minTick = Math.floor(minGrowth / 100) * 100;
         } else {
-            // Mixed positive and negative growth values
-            maxTick = Math.ceil(Math.max(Math.abs(maxGrowth), Math.abs(minGrowth)) / 100) * 100;
-            minTick = -maxTick;
+            // No need to handle negative growth values
+            maxTick = 0;
         }
 
         const yAxes = lineChart.options.scales.y;
 
         // Update y-axis configuration
         yAxes.max = maxTick;
-        yAxes.min = minTick;
-        yAxes.ticks.stepSize = Math.abs(maxTick - minTick) / 10; // Adjust step size if needed
+        yAxes.min = 0; // Minimum value is always 0 for positive growth values
+        yAxes.ticks.stepSize = maxTick / 10; // Adjust step size if needed
 
         lineChart.update(); // Update the chart
     }

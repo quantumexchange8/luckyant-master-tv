@@ -67,8 +67,8 @@ const daysSinceFirstTrade = (dateString) => {
                     <div class="information-part-2">
                         <p>Total Growth</p>
                         <p>Current Month Growth</p>
-                        <!-- <p>Max. Daily Growth</p>
-                        <p>Current Drawdown</p>
+                        <p>Max. Daily Growth</p>
+                        <!-- <p>Current Drawdown</p>
                         <p>Max. Drawdown</p> -->
                     </div>
                     <div class="information-data-part-2" v-if="masterAccount">
@@ -84,8 +84,10 @@ const daysSinceFirstTrade = (dateString) => {
                         }">
                             {{ masterAccount.currentMonthGrowth !== 0 ? (masterAccount.currentMonthGrowth > 0 ? '+' + masterAccount.currentMonthGrowth : masterAccount.currentMonthGrowth) : masterAccount.currentMonthGrowth }}%
                         </p>
-                        <!-- <p class="font-green-color">+0.75%</p>
-                        <p>0.07%</p>
+                        <p>
+                            {{ masterAccount.maxDailyGrowth !== 0 ? masterAccount.maxDailyGrowth : '-' }}%
+                        </p>
+                        <!-- <p>0.07%</p>
                         <p>7.13%</p> -->
                     </div>
                 </div>
