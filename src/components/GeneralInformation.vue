@@ -48,15 +48,15 @@ const daysSinceFirstTrade = (dateString) => {
                 <div class="information-content-1">
                     <div class="information-part-1">
                         <p>Profit</p>
-                        <p>Floating P/L</p>
+                        <!-- <p>Floating P/L</p> -->
                         <p>Equity</p>
                         <p>Balance</p>
                         <p>Deposit</p>
                         <p>Withdrawal</p>
                     </div>
                     <div class="information-data-part-1"  v-if="masterAccount">
-                        <p>$ {{ masterAccount.profit }}</p>
-                        <p>$ {{ masterAccount.floating }}</p>
+                        <p>$ {{ masterAccount.totalProfit }}</p>
+                        <!-- <p>$ {{ masterAccount.floating }}</p> -->
                         <p>$ {{ masterAccount.equity }}</p>
                         <p>$ {{ masterAccount.balance }}</p>
                         <p>$ {{ masterAccount.deposits }}</p>

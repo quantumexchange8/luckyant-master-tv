@@ -24,7 +24,7 @@ watch(() => props.masterAccount, (newValue, oldValue) => {
     masterEquity.value = newValue.equity;
     masterWithdrawals.value = newValue.withdrawals;
     masterDeposits.value = newValue.deposits;
-    masterProfit.value = newValue.profit;
+    masterProfit.value = newValue.totalProfit;
 
     // Create or update radar chart based on the master account data
     createOrUpdateRadarChart();
