@@ -18,7 +18,7 @@ let lineChart = null;
 
 const fetchData = async () => {
     try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/getMasterGrowth?meta_login=${master_meta_login.value}`);
+        const response = await axios.get(`https://member.luckyantfxasia.com/api/getMasterGrowth?meta_login=${master_meta_login.value}`);
         dates.value = response.data.interval_dates;
         growth.value = response.data.trade_profit_pct;
     } catch (error) {

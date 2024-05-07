@@ -44,7 +44,7 @@ const master_meta_login = ref();
 
 async function fetchData() {
     try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/getMasterOpenTrade?meta_login=${master_meta_login.value}`);
+        const response = await axios.get(`https://member.luckyantfxasia.com/api/getMasterOpenTrade?meta_login=${master_meta_login.value}`);
         
         openTrades.value = response.data.openTrade; // Set the metaLogin value upon successful login
         // console.log('Open Trade: ', openTrades.value)
