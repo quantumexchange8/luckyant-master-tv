@@ -109,6 +109,9 @@ setInterval(() => {
                             Open Date
                         </th>
                         <th scope="col" class="px-6 py-3">
+                            Ticket
+                        </th>
+                        <th scope="col" class="px-6 py-3">
                             Symbol
                         </th>
                         <th scope="col" class="px-6 py-3">
@@ -119,6 +122,21 @@ setInterval(() => {
                         </th>
                         <th scope="col" class="px-6 py-3">
                             Open Price
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            SL
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            TP
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Current Price
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Swap
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Profit
                         </th>
                         <!-- <th scope="col" class="px-6 py-3">
                             Pips
@@ -139,13 +157,17 @@ setInterval(() => {
                                 <div class="table-content-date">
                                     <!-- 01.01.2024 -->
                                     <!-- {{ openTrade.time_open }} -->
-                                    {{ openTrade.time_open.split(' ')[0] }}
+                                    {{ openTrade.timeCreated.split(' ')[0] }}
                                 </div>
                                 <div class="table-content-time">
                                     <!-- 11:37:48 -->
-                                    {{ openTrade.time_open.split(' ')[1] }}
+                                    {{ openTrade.timeCreated.split(' ')[1] }}
                                 </div>
                             </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <!-- GBPUSD -->
+                            {{ openTrade.position }}
                         </td>
                         <td class="px-6 py-4">
                             <!-- GBPUSD -->
@@ -153,7 +175,7 @@ setInterval(() => {
                         </td>
                         <td class="px-6 py-4">
                             <!-- Sell -->
-                            {{ openTrade.trade_type }}
+                            {{ openTrade.action }}
                         </td>
                         <td class="px-6 py-4">
                             <!-- 500.00 -->
@@ -161,7 +183,32 @@ setInterval(() => {
                         </td>
                         <td class="px-6 py-4">
                             <!-- 1.29506 -->
-                            {{ openTrade.price_open }}
+                            {{ openTrade.avgOpenPrice }}
+                        </td>
+                        <td class="px-6 py-4">
+                            <!-- 1.29506 -->
+                            {{ openTrade.priceSL.toFixed(2) }}
+                        </td>
+                        <td class="px-6 py-4">
+                            <!-- 1.29506 -->
+                            {{ openTrade.priceTP.toFixed(2) }}
+                        </td>
+                        <td class="px-6 py-4">
+                            <!-- 1.29506 -->
+                            {{ openTrade.priceCurrent }}
+                        </td>
+                        <td class="px-6 py-4">
+                            <!-- 1.29506 -->
+                            {{ openTrade.swap.toFixed(2) }}
+                        </td>
+                        <td class="px-6 py-4" >
+                            <!-- 1.29506 -->
+                            <p :class="{
+                            'font-green-color': openTrade.profit > 0,
+                            'font-red-color': openTrade.profit < 0
+                        }">
+                            {{ openTrade.profit.toFixed(2) }}
+                        </p>
                         </td>
                         <!-- <td class="px-6 py-4">
                             <span :style="{ color: openTrade.pips > 0 ? '#06F7A1' : (openTrade.pips < 0 ? '#FF483D' : 'inherit') }">
