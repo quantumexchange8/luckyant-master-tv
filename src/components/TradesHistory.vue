@@ -78,10 +78,10 @@ watch(() => props.masterAccount, (newMasterAccount) => {
 //     return durationSeconds;
 // };
 
-// Set interval to update data every second
+// Set interval to update data every 5 second
 setInterval(() => {
     fetchData();
-}, 1000);
+}, 5000);
 
 </script>
 
