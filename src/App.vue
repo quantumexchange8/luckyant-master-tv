@@ -20,7 +20,7 @@ const masterAccount = ref();
 
 const fetchData = async () => {
     try {
-        const response = await axios.get(`https://member.luckyantfxasia.com/api/getLiveAccount`);
+        const response = await axios.get(`https://member.luckyantfxgroup.com/api/getLiveAccount`);
         liveMasters.value = response.data.metaUser;
         masterAccount.value = liveMasters.value[0]
         // console.log('Live Masters:', liveMasters.value);
