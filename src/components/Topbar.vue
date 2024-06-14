@@ -33,7 +33,7 @@ const updateDateTime = () => {
 
 async function fetchData() {
     try {
-        const response = await axios.get('https://member.luckyantfxasia.com/api/getMaster');
+        const response = await axios.get('https://member.luckyantfxgroup.com/api/getMaster');
         const masterData = response.data.status; // Assuming status is directly available in the response data
         // console.log('Response Data Status:', masterData); // Log the status from the response data
 
