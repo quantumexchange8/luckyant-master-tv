@@ -13,7 +13,7 @@ let pieChart = null;
 
 const fetchData = async () => {
     try {
-        const response = await axios.get(`https://member.luckyantfxasia.com/api/getMasterCurrency?meta_login=${master_meta_login.value}`);
+        const response = await axios.get(`https://member.luckyantfxgroup.com/api/getMasterCurrency?meta_login=${master_meta_login.value}`);
         data.value = response.data;
     } catch (error) {
         console.error('Error fetching live data:', error);
