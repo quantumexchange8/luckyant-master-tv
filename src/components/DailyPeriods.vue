@@ -14,7 +14,7 @@ const master_meta_login = ref();
 
 const fetchData = async () => {
     try {
-        const response = await axios.get(`https://member.luckyantfxasia.com/api/getMasterLatestTrades?meta_login=${master_meta_login.value}`);
+        const response = await axios.get(`https://member.luckyantfxgroup.com/api/getMasterLatestTrades?meta_login=${master_meta_login.value}`);
         dates.value = response.data.dates
         longTrades.value = response.data.longTrades;
         shortTrades.value = response.data.shortTrades;
